@@ -1,5 +1,5 @@
 @extends('frontend.layouts.master')
-@section('title', 'Ecommerce Laravel || HOME PAGE')
+@section('title', 'Fulvari || HOME PAGE')
 {{-- {{ dd(Hash::make('admin@123')) }} --}}
 @section('main-content')
     {{-- <div class="modal fade custom-modal" id="onloadModal" tabindex="-1" aria-labelledby="onloadModalLabel" aria-hidden="true">
@@ -79,11 +79,11 @@
                                     <div class="detail-info">
                                         <h3 class="title-detail mt-30">{{ $product->title }}</h3>
                                         <div class="product-detail-rating">
-                                            <div class="pro-details-brand">
+                                            {{-- <div class="pro-details-brand">
                                                 <span> Brands:
                                                     <a
                                                         href="javascript:void(0)">{{ @ucwords($product->brand->title) }}</a></span>
-                                            </div>
+                                            </div> --}}
                                             <div class="product-rate-cover text-end">
                                                 <div class="product-rate d-inline-block">
                                                     <div class="product-rating" style="width:90%">
@@ -112,7 +112,7 @@
                                             <p class="font-sm">{!! html_entity_decode($product->summary) !!}</p>
                                         </div>
                                         <div class="attr-detail attr-size">
-                                            <strong class="mr-10">Size</strong>
+                                            <strong class="mr-10">Pot Size</strong>
                                             @if ($product->size)
                                                 <ul class="list-filter size-filter font-small">
                                                     @php
@@ -293,7 +293,7 @@
                                         </div>
                                         <div class="product-content-wrap">
                                             <div class="product-category">
-                                                <a href="shop-grid-right.html">Clothing</a>
+                                                <a href="shop-grid-right.html">Plants</a>
                                             </div>
                                             <h2><a
                                                     href="{{ route('product-detail', $product->slug) }}">{{ $product->title }}</a>
@@ -332,8 +332,8 @@
                 <div class="banner-img banner-big wow fadeIn animated f-none">
                     <img src="/frontend/images/banner-4.png" alt="">
                     <div class="banner-text d-md-block d-none">
-                        <h4 class="mb-15 mt-40 text-brand">Discover Your Perfect Look</h4>
-                        <h1 class="fw-600 mb-20">Embrace every moment with <br> style, grace, and confidence.</h1>
+                        <h4 class="mb-15 mt-40 text-brand">Discover Your Perfect Plant</h4>
+                        <h1 class="fw-600 mb-20">Bring nature home with <br> style, grace, and greenery.</h1>
                         <a href="{{ route('product-grids') }}" class="btn">View More <i
                                 class="fi-rs-arrow-right"></i></a>
                     </div>
@@ -363,42 +363,6 @@
                 </div>
             </div>
         </section>
-        {{-- <section class="banners mb-15">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-4 col-md-6">
-                        <div class="banner-img wow fadeIn animated">
-                            <img src="frontend/images/banner-1.png" alt="">
-                            <div class="banner-text">
-                                <span>Smart Offer</span>
-                                <h4>Save 20% on <br>Woman Bag</h4>
-                                <a href="shop-grid-right.html">Shop Now <i class="fi-rs-arrow-right"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="banner-img wow fadeIn animated">
-                            <img src="frontend/images/banner-2.png" alt="">
-                            <div class="banner-text">
-                                <span>Sale off</span>
-                                <h4>Great Summer <br>Collection</h4>
-                                <a href="shop-grid-right.html">Shop Now <i class="fi-rs-arrow-right"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 d-md-none d-lg-flex">
-                        <div class="banner-img wow fadeIn animated  mb-sm-0">
-                            <img src="frontend/images/banner-3.png" alt="">
-                            <div class="banner-text">
-                                <span>New Arrivals</span>
-                                <h4>Shop Today’s <br>Deals &amp; Offers</h4>
-                                <a href="shop-grid-right.html">Shop Now <i class="fi-rs-arrow-right"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section> --}}
         <section class="section-padding mb-40">
             <div class="container wow fadeIn animated">
                 <h3 class="section-title mb-20"><span>New</span> Arrivals</h3>
@@ -499,8 +463,8 @@
                         <div class="deal wow fadeIn animated"
                             style="background-image: url('frontend/images/menu-banner-8.jpg');">
                             <div class="deal-top">
-                                <h2 class="text-brand">Men Clothing</h2>
-                                <h5>Shirt &amp; Bag</h5>
+                                <h2 class="text-brand">Indoor Plants</h2>
+                                <h5>Pots &amp; Planters</h5>
                             </div>
                             <div class="deal-content">
                                 <h6 class="product-title"><a href="shop-product-right.html">Try something new on
@@ -550,8 +514,8 @@
                         <div class="banner-img style-2 wow fadeIn animated">
                             <img src="frontend/images/banner-9.jpg" alt="">
                             <div class="banner-text">
-                                <span>Woman Area</span>
-                                <h4 class="mt-5">Save 17% on <br>Clothing</h4>
+                                <span>Plant Area</span>
+                                <h4 class="mt-5">Save 17% on <br>Plants</h4>
                                 <a href="shop-grid-right.html" class="text-white">Shop Now <i
                                         class="fi-rs-arrow-right"></i></a>
                             </div>

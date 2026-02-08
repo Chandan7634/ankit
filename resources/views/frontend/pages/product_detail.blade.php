@@ -58,7 +58,7 @@
     </style>
 @endsection
 
-@section('title', 'Ecommerce chandan || PRODUCT detail')
+@section('title', 'Fulvari || PRODUCT detail')
 @section('main-content')
     @if ($product_detail->rel_prods)
         @foreach ($product_detail->rel_prods as $key => $product)
@@ -99,11 +99,11 @@
                                     <div class="detail-info">
                                         <h3 class="title-detail mt-30">{{ $product->title }}</h3>
                                         <div class="product-detail-rating">
-                                            <div class="pro-details-brand">
+                                            {{-- <div class="pro-details-brand">
                                                 <span> Brands:
                                                     <a
                                                         href="javascript:void(0)">{{ @ucwords($product->brand->title) }}</a></span>
-                                            </div>
+                                            </div> --}}
                                             <div class="product-rate-cover text-end">
                                                 <div class="product-rate d-inline-block">
                                                     <div class="product-rating" style="width:90%">
@@ -132,7 +132,7 @@
                                             <p class="font-sm">{!! html_entity_decode($product->summary) !!}</p>
                                         </div>
                                         <div class="attr-detail attr-size">
-                                            <strong class="mr-10">Size</strong>
+                                            <strong class="mr-10">Pot Size</strong>
                                             @if ($product->size)
                                                 <ul class="list-filter size-filter font-small">
                                                     @php
@@ -167,8 +167,6 @@
                                                     <a aria-label="Add To Wishlist" class="action-btn hover-up"
                                                         href="{{ route('add-to-wishlist', $product->slug) }}"><i
                                                             class="fi-rs-heart"></i></a>
-                                                    <a aria-label="Compare" class="action-btn hover-up"
-                                                        href="javascript:void(0)"><i class="fi-rs-shuffle"></i></a>
                                                 </div>
                                             </div>
                                         </form>
@@ -185,7 +183,7 @@
         <div class="page-header breadcrumb-wrap">
             <div class="container">
                 <div class="breadcrumb">
-                    <a href="index.html" rel="nofollow">Home</a>
+                    <a href="/" rel="nofollow">Home</a>
                     <span></span> Shop Details
                     {{-- <span></span> Shop Details --}}
                 </div>
@@ -223,10 +221,10 @@
                                     <div class="detail-info">
                                         <h2 class="title-detail">{{ $product_detail->title }}</h2>
                                         <div class="product-detail-rating">
-                                            <div class="pro-details-brand">
+                                            {{-- <div class="pro-details-brand">
                                                 <span> Brands: <a
                                                         href="shop-grid-right.html">{{ $product_detail->brand->title }}</a></span>
-                                            </div>
+                                            </div> --}}
                                             @php
                                                 $rating = rand(4, 5);
                                             @endphp
@@ -291,7 +289,7 @@
                                             </ul>
                                         </div> --}}
                                         <div class="attr-detail attr-size">
-                                            <strong class="mr-10">Size</strong>
+                                            <strong class="mr-10">Pot Size</strong>
                                             @php
                                                 $sizes = explode(',', $product_detail->size);
                                             @endphp
@@ -325,8 +323,6 @@
                                                     <a aria-label="Add To Wishlist" class="action-btn hover-up"
                                                         href="{{ route('add-to-wishlist', $product_detail->slug) }}"><i
                                                             class="fi-rs-heart"></i></a>
-                                                    <a aria-label="Compare" class="action-btn hover-up"
-                                                        href="javascript:void(0)"><i class="fi-rs-shuffle"></i></a>
                                                 </div>
                                             </div>
                                         </form>
@@ -559,9 +555,9 @@
                                                                         <img class="default-img"
                                                                             src="{{ Storage::url($photos[0]) }}"
                                                                             alt="">
-                                                                        <img class="hover-img"
+                                                                        {{-- <img class="hover-img"
                                                                             src="{{ Storage::url($photos[1]) }}"
-                                                                            alt="">
+                                                                            alt=""> --}}
                                                                     </a>
                                                                 </div>
                                                                 <div class="product-action-1">
@@ -574,10 +570,6 @@
                                                                         class="action-btn small hover-up"
                                                                         href="{{ route('add-to-wishlist', $product->slug) }}""
                                                                         tabindex="0"><i class="fi-rs-heart"></i></a>
-                                                                    <a aria-label="Compare"
-                                                                        class="action-btn small hover-up"
-                                                                        href="javascript:void(0)" tabindex="0"><i
-                                                                            class="fi-rs-shuffle"></i></a>
                                                                 </div>
                                                                 <div
                                                                     class="product-badges product-badges-position product-badges-mrg">

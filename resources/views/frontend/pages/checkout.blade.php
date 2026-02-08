@@ -8,7 +8,7 @@
         <div class="page-header breadcrumb-wrap">
             <div class="container">
                 <div class="breadcrumb">
-                    <a href="index.html" rel="nofollow">Home</a>
+                    <a href="/" rel="nofollow">Home</a>
                     <span></span> Checkout
                 </div>
             </div>
@@ -94,7 +94,7 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <input type="text"  name="last_name" value="{{ old('lat_name') }}"
+                                <input type="text" name="last_name" value="{{ old('lat_name') }}"
                                     placeholder="Last name *">
                                 @error('last_name')
                                     <span class='text-danger'>{{ $message }}</span>

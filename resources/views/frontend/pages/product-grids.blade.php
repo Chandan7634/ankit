@@ -1,13 +1,13 @@
 @extends('frontend.layouts.master')
 
-@section('title', 'Ecommerce chandan || bvkjdkvfdv PAGE')
+@section('title', 'Fulvari || Shop Grid')
 
 @section('main-content')
     <main class="main" style="transform: none;">
         <div class="page-header breadcrumb-wrap">
             <div class="container">
                 <div class="breadcrumb">
-                    <a href="index.html" rel="nofollow">Home</a>
+                    <a href="{{ route('home') }}" rel="nofollow">Home</a>
                     <span></span> Shop
                 </div>
             </div>
@@ -20,7 +20,8 @@
                         <div class="col-lg-9">
                             <div class="shop-product-fillter">
                                 <div class="totall-product">
-                                    <p> We found <strong class="text-brand">688</strong> items for you!</p>
+                                    <p> We found <strong class="text-brand">{{ $products->total() }}</strong> items for you!
+                                    </p>
                                 </div>
                                 <div class="sort-by-product-area">
                                     <div class="sort-by-cover mr-10">
@@ -34,11 +35,11 @@
                                         </div>
                                         <div class="sort-by-dropdown">
                                             <ul>
-                                                <li><a class="active" href="#">50</a></li>
-                                                <li><a href="#">100</a></li>
-                                                <li><a href="#">150</a></li>
-                                                <li><a href="#">200</a></li>
-                                                <li><a href="#">All</a></li>
+                                                <li><a href="{{ Request::fullUrlWithQuery(['show' => 50]) }}">50</a></li>
+                                                <li><a href="{{ Request::fullUrlWithQuery(['show' => 100]) }}">100</a></li>
+                                                <li><a href="{{ Request::fullUrlWithQuery(['show' => 150]) }}">150</a></li>
+                                                <li><a href="{{ Request::fullUrlWithQuery(['show' => 200]) }}">200</a></li>
+                                                <li><a href="{{ Request::fullUrlWithQuery(['show' => '']) }}">All</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -53,11 +54,18 @@
                                         </div>
                                         <div class="sort-by-dropdown">
                                             <ul>
-                                                <li><a class="active" href="#">Featured</a></li>
-                                                <li><a href="#">Price: Low to High</a></li>
-                                                <li><a href="#">Price: High to Low</a></li>
-                                                <li><a href="#">Release Date</a></li>
-                                                <li><a href="#">Avg. Rating</a></li>
+                                                <li><a
+                                                        href="{{ Request::fullUrlWithQuery(['sortBy' => '', 'page' => 1]) }}">Featured</a>
+                                                </li>
+                                                <li><a
+                                                        href="{{ Request::fullUrlWithQuery(['sortBy' => 'price', 'page' => 1]) }}">Price:
+                                                        Low to High</a></li>
+                                                <li><a
+                                                        href="{{ Request::fullUrlWithQuery(['sortBy' => 'title', 'page' => 1]) }}">Title</a>
+                                                </li>
+                                                <li><a
+                                                        href="{{ Request::fullUrlWithQuery(['sortBy' => 'new', 'page' => 1]) }}">Release
+                                                        Date</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -76,8 +84,8 @@
                                                             @endphp
                                                             <img class="default-img" src="{{ Storage::url($photos[0]) }}"
                                                                 alt="{{ $photos[0] }}">
-                                                            <img class="hover-img" src="{{ Storage::url($photos[1]) }}"
-                                                                alt="">
+                                                            {{-- <img class="hover-img" src="{{ Storage::url($photos[1]) }}"
+                                                                alt=""> --}}
                                                         </a>
                                                     </div>
                                                     <div class="product-action-1">
@@ -88,8 +96,6 @@
                                                         <a aria-label="Add To Wishlist" class="action-btn hover-up"
                                                             href="{{ route('add-to-wishlist', $product->slug) }}"><i
                                                                 class="fi-rs-heart"></i></a>
-                                                        <a aria-label="Compare" class="action-btn hover-up"
-                                                            href="javascript:void(0)"><i class="fi-rs-shuffle"></i></a>
                                                     </div>
                                                     <div class="product-badges product-badges-position product-badges-mrg">
                                                         @if ($product->stock <= 0)
@@ -107,7 +113,7 @@
                                                 </div>
                                                 <div class="product-content-wrap">
                                                     <div class="product-category">
-                                                        <a href="shop-grid-right.html">Clothing</a>
+                                                        <a href="{{ route('product-grids') }}">Plants</a>
                                                     </div>
                                                     <h2><a
                                                             href="{{ route('product-detail', $product->slug) }}">{{ $product->title }}</a>
@@ -242,7 +248,7 @@
                                         </div>
                                     @endforeach
                                 </div>
-                                <div class="widget-category mb-30">
+                                {{-- <div class="widget-category mb-30">
                                     <h5 class="section-title style-1 mb-30 wow fadeIn animated animated animated"
                                         style="visibility: visible;">Brands</h5>
                                     @php
@@ -261,7 +267,7 @@
                                             @endforeach
                                     @endif
                                     </ul>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>

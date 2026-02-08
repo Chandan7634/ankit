@@ -67,7 +67,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group ">
-                                <label for="size" class="col-form-label">Size</label>
+                                <label for="size" class="col-form-label">Pot Size</label>
                                 <select name="size[]" class="form-control selectpicker" multiple data-live-search="true">
                                     <option value="">--Select any size--</option>
                                     <option value="S">Small (S)</option>
@@ -75,18 +75,12 @@
                                     <option value="L">Large (L)</option>
                                     <option value="XL">Extra Large (XL)</option>
                                     <option value="2XL">Double Extra Large (2XL)</option>
-                                    <option value="7US">7 US</option>
-                                    <option value="8US">8 US</option>
-                                    <option value="9US">9 US</option>
-                                    <option value="10US">10 US</option>
-                                    <option value="11US">11 US</option>
-                                    <option value="12US">12 US</option>
-                                    <option value="13US">13 US</option>
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-6">
 
+                            {{-- <div class="col-md-6">
                             <div class="form-group">
                                 <label for="brand_id" class="col-form-label">Brand</label>
                                 <select name="brand_id" class="form-control">
@@ -96,86 +90,86 @@
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="condition" class="col-form-label">Condition</label>
-                                <select name="condition" class="form-control">
-                                    <option value="">--Select Condition--</option>
-                                    <option value="default">Default</option>
-                                    <option value="new">New</option>
-                                    <option value="hot">Hot</option>
-                                </select>
+                        </div> --}}
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="condition" class="col-form-label">Condition</label>
+                                    <select name="condition" class="form-control">
+                                        <option value="">--Select Condition--</option>
+                                        <option value="default">Default</option>
+                                        <option value="new">New</option>
+                                        <option value="hot">Hot</option>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="stock" class="col-form-label">Quantity <span
-                                        class="text-danger">*</span></label>
-                                <input id="quantity" type="number" name="stock" min="0"
-                                    placeholder="Enter quantity" value="{{ old('stock') }}" class="form-control">
-                                @error('stock')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="stock" class="col-form-label">Quantity <span
+                                            class="text-danger">*</span></label>
+                                    <input id="quantity" type="number" name="stock" min="0"
+                                        placeholder="Enter quantity" value="{{ old('stock') }}" class="form-control">
+                                    @error('stock')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="photo" class="col-form-label">Photo</label>
+                                    <input id="photo" type="file" multiple name="photo[]"
+                                        value="{{ old('photo') }}" class="form-control">
+                                    @error('photo')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <label for="photo" class="col-form-label">Photo</label>
-                                <input id="photo" type="file" multiple name="photo[]"
-                                    value="{{ old('photo') }}" class="form-control">
-                                @error('photo')
+                                <label for="status" class="col-form-label">Status <span
+                                        class="text-danger">*</span></label>
+                                <select name="status" class="form-control">
+                                    <option value="active">Active</option>
+                                    <option value="inactive">Inactive</option>
+                                </select>
+                                @error('status')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="is_featured" class="col-form-label">Is Featured</label><br>
+                                <input type="checkbox" name='is_featured' id='is_featured' value='1' checked> Yes
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="summary" class="col-form-label">Summary <span
+                                        class="text-danger">*</span></label>
+                                <textarea class="form-control" id="summary" name="summary">{{ old('summary') }}</textarea>
+                                @error('summary')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="description" class="col-form-label">Description</label>
+                                <textarea class="form-control" id="description" name="description">{{ old('description') }}</textarea>
+                                @error('description')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
                         </div>
                     </div>
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label for="status" class="col-form-label">Status <span
-                                    class="text-danger">*</span></label>
-                            <select name="status" class="form-control">
-                                <option value="active">Active</option>
-                                <option value="inactive">Inactive</option>
-                            </select>
-                            @error('status')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="is_featured" class="col-form-label">Is Featured</label><br>
-                            <input type="checkbox" name='is_featured' id='is_featured' value='1' checked> Yes
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="summary" class="col-form-label">Summary <span
-                                    class="text-danger">*</span></label>
-                            <textarea class="form-control" id="summary" name="summary">{{ old('summary') }}</textarea>
-                            @error('summary')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="description" class="col-form-label">Description</label>
-                            <textarea class="form-control" id="description" name="description">{{ old('description') }}</textarea>
-                            @error('description')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
+                    <div class="form-group mb-3">
+                        <button type="reset" class="btn btn-warning">Reset</button>
+                        <button class="btn btn-success" id="submit-button" type="submit">Submit</button>
                     </div>
                 </div>
-                <div class="form-group mb-3">
-                    <button type="reset" class="btn btn-warning">Reset</button>
-                    <button class="btn btn-success" id="submit-button" type="submit">Submit</button>
-                </div>
+            </form>
         </div>
-        </form>
-    </div>
     </div>
 @endsection
 

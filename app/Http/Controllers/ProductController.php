@@ -144,7 +144,7 @@ class ProductController extends Controller
             'title'=>'string|required',
             'summary'=>'string|required',
             'description'=>'string|nullable',
-            'photo'=>'string|required',
+            'photo'=>'sometimes',
             'size'=>'nullable',
             'stock'=>"required|numeric",
             'cat_id'=>'required|exists:categories,id',
@@ -159,6 +159,27 @@ class ProductController extends Controller
 
         $data=$request->all();
         $data['is_featured']=$request->input('is_featured',0);
+        
+        // Handle Photo Upload
+        if ($request->hasFile('photo')) {
+            $uploadedPaths = [];
+            foreach ($request->file('photo') as $image) {
+                $path = $image->store('product', 'public');
+                $uploadedPaths[] = $path;
+            }
+            $data['photo'] = implode(',', $uploadedPaths);
+        } else {
+             // If no new photo, keep the old one (or if you want to allow deleting all photos, handle that differently. 
+             // Typically if input is empty, we don't overwrite with null unless intended)
+             // Check if we need to preserve old photo or if the form sends old photo as hidden input?
+             // Looking at edit.blade.php, it doesn't seem to send old photo as hidden field.
+             // So if no file is uploaded, we should unset 'photo' from data to prevent overwriting with null/empty if it's not in request data as string.
+             // But $request->all() might contain it?
+             if(!isset($data['photo'])){
+                 unset($data['photo']);
+             }
+        }
+
         $size=$request->input('size');
         if($size){
             $data['size']=implode(',',$size);

@@ -1,5 +1,4 @@
 <footer class="main">
-    @include('frontend.layouts.newsletter')
     <section class="section-padding footer-mid">
         <div class="container pt-15 pb-20">
             <div class="row justify-content-center">

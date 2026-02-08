@@ -27,7 +27,7 @@
                                 <th>Discount</th>
                                 <th>Size</th>
                                 <th>Condition</th>
-                                <th>Brand</th>
+                                {{-- <th>Brand</th> --}}
                                 <th>Stock</th>
                                 <th>Photo</th>
                                 <th>Status</th>
@@ -64,7 +64,7 @@
                                     <td> {{ $product->discount }}%</td>
                                     <td>{{ $product->size }}</td>
                                     <td>{{ $product->condition }}</td>
-                                    <td> {{ ucfirst($product->brand->title) }}</td>
+                                    {{-- <td> {{ ucfirst($product->brand->title) }}</td> --}}
                                     <td>
                                         <span class="badge p-2 bg-light text-dark fs-12 me-1">
                                             @if ($product->stock > 0)

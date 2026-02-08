@@ -62,7 +62,8 @@ class MessageController extends Controller
         $data['photo']=Auth()->user()->photo;
         // return $data;    
         event(new MessageSent($data));
-        exit();
+        request()->session()->flash('success', 'Your message has been sent successfully!');
+        return redirect()->back();
     }
 
     /**

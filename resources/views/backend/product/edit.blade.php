@@ -77,7 +77,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="size" class="col-form-label">Size</label>
+                            <label for="size" class="col-form-label">Pot Size</label>
                             <select name="size[]" class="form-control selectpicker" multiple data-live-search="true">
                                 <option value="">--Select any size--</option>
                                 @foreach ($items as $item)
@@ -85,21 +85,21 @@
                                         $data = explode(',', $item->size);
                                         // dd($data);
                                     @endphp
-                                    <option value="S" @if (in_array('S', $data)) selected @endif>Small</option>
-                                    <option value="M" @if (in_array('M', $data)) selected @endif>Medium</option>
-                                    <option value="L" @if (in_array('L', $data)) selected @endif>Large</option>
+                                    <option value="S" @if (in_array('S', $data)) selected @endif>Small (S)
+                                    </option>
+                                    <option value="M" @if (in_array('M', $data)) selected @endif>Medium (M)
+                                    </option>
+                                    <option value="L" @if (in_array('L', $data)) selected @endif>Large (L)
+                                    </option>
                                     <option value="XL" @if (in_array('XL', $data)) selected @endif>Extra Large
-                                    </option>
+                                        (XL)</option>
                                     <option value="2XL" @if (in_array('2XL', $data)) selected @endif>Double Extra
-                                        Large
-                                    </option>
-                                    <option value="FS" @if (in_array('FS', $data)) selected @endif>Free Size
-                                    </option>
+                                        Large (2XL)</option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    {{-- <div class="col-md-6">
                         <div class="form-group">
                             <label for="brand_id" class="col-form-label">Brand</label>
                             <select name="brand_id" class="form-control">
@@ -111,7 +111,7 @@
                                 @endforeach
                             </select>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="condition" class="col-form-label">Condition</label>
@@ -126,8 +126,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="stock" class="col-form-label">Quantity <span
-                                    class="text-danger">*</span></label>
+                            <label for="stock" class="col-form-label">Quantity <span class="text-danger">*</span></label>
                             <input id="quantity" type="number" name="stock" min="0"
                                 placeholder="Enter quantity" value="{{ $product->stock }}" class="form-control">
                             @error('stock')

@@ -5,7 +5,7 @@
         <div class="page-header breadcrumb-wrap">
             <div class="container">
                 <div class="breadcrumb">
-                    <a href="index.html" rel="nofollow">Home</a>
+                    <a href="/" rel="nofollow">Home</a>
                     <span></span> Your Cart
                 </div>
             </div>
@@ -148,7 +148,7 @@
                                                         <td class="cart_total_label">Coupon</td>
                                                         <td class="coupon_price"
                                                             data-price="{{ Session::get('coupon')['value'] }}">You
-                                                            Save<span>${{ number_format(Session::get('coupon')['value'], 2) }}</span>
+                                                            Save<span>&#8377;{{ number_format(Session::get('coupon')['value'], 2) }}</span>
                                                         </td>
                                                     @endif
                                                 </tr>

@@ -14,10 +14,12 @@
                     <div class="text-center">
                         <div id="news-flash" class="d-inline-block">
                             <ul>
-                                <li>Get great devices up to 50% off <a href="shop-grid-right.html">View details</a>
+                                <li>Get great devices up to 50% off <a href="{{ route('product-grids') }}">View
+                                        details</a>
                                 </li>
                                 <li>Supper Value Deals - Save more with coupons</li>
-                                <li>Trendy 25silver jewelry, save up 35% off today <a href="shop-grid-right.html">Shop
+                                <li>Fresh Indoor Plants, save up 35% off today <a
+                                        href="{{ route('product-grids') }}">Shop
                                         now</a></li>
                             </ul>
                         </div>
@@ -79,7 +81,7 @@
                                                 <li>
                                                     <div class="shopping-cart-img">
                                                         <a href="javascript:void(0)">
-                                                            <img alt="Evara" src="{{ Storage::url($photo[0]) }}"
+                                                            <img alt="Fulvari" src="{{ Storage::url($photo[0]) }}"
                                                                 alt="{{ $photo[0] }}"></a>
                                                     </div>
                                                     <div class="shopping-cart-title">
@@ -121,7 +123,7 @@
                             @endauth
                             <div class="header-action-icon-2">
                                 <a class="mini-cart-icon" href="{{ route('cart') }}">
-                                    <img alt="Evara" src="{{ Storage::url('web/icon-cart.svg') }}">
+                                    <img alt="Fulvari" src="{{ Storage::url('web/icon-cart.svg') }}">
                                     <span class="pro-count blue">
                                         {{ App\Helpers\Helper::cartCount() }}
                                     </span>
@@ -202,23 +204,19 @@
                                     <a class="{{ Request::path() == 'blog' ? 'active' : '' }}"
                                         href="{{ route('blog') }}">Blog</a>
                                 </li> --}}
-                                <li>
-                                    <a class="{{ Request::path() == 'contact' ? 'active' : '' }}"
-                                        href="javascript:void(0)">Contact</a>
-                                    {{-- {{ route('contact') }} --}}
-                                </li>
+
                             </ul>
                         </nav>
                     </div>
                 </div>
 
-                <p class="mobile-promotion">Happy <span class="text-brand">Mother's Day</span>. Big Sale Up to 40%
+                <p class="mobile-promotion">Welcome to <span class="text-brand">Fulvari</span>. Big Sale Up to 40%
                 </p>
                 <div class="header-action-right d-block d-lg-none">
                     <div class="header-action-2">
                         <div class="header-action-icon-2">
                             <a href="{{ route('wishlist') }}">
-                                <img alt="Evara" src="frontend/images/icon-heart.svg">
+                                <img alt="Fulvari" src="frontend/images/icon-heart.svg">
                                 <span class="pro-count white">
                                     {{ App\Helpers\Helper::wishlistCount() }}
                                 </span>
@@ -226,7 +224,7 @@
                         </div>
                         <div class="header-action-icon-2">
                             <a class="mini-cart-icon" href="shop-cart.html">
-                                <img alt="Evara" src="frontend/images/icon-cart.svg">
+                                <img alt="Fulvari" src="frontend/images/icon-cart.svg">
                                 <span class="pro-count white">2</span>
                             </a>
                             @auth
