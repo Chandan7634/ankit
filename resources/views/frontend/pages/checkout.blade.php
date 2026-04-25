@@ -139,8 +139,8 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <input type="text" value="{{ old('address2') }}" name="address2" required=""
-                                    placeholder="Address line2">
+                                <input type="text" value="{{ old('address2') }}" name="address2"
+                                    placeholder="Address line 2 (optional)">
                                 @error('address2')
                                     <span class='text-danger'>{{ $message }}</span>
                                 @enderror
@@ -609,20 +609,16 @@
                                     </div>
                                     <div class="payment_option">
                                         <div class="custome-radio">
-                                            <input class="form-check-input" required="" type="radio"
-                                                name="payment_method" id="exampleRadios4" checked="">
-
-                                            <label class="form-check-label" for="exampleRadios4"
-                                                data-bs-toggle="collapse" data-target="#checkPayment"
-                                                aria-controls="checkPayment">Cash On Delivery</label>
+                                            <input class="form-check-input" type="radio"
+                                                name="payment_method" id="paymentCOD" value="cod" checked>
+                                            <label class="form-check-label" for="paymentCOD">
+                                                Cash On Delivery
+                                            </label>
                                         </div>
-                                        <div class="custome-radio">
-                                            <input class="form-check-input" disabled required="" type="radio"
-                                                name="payment_method" id="exampleRadios5">
-                                            <label class="form-check-label" for="exampleRadios5"
-                                                data-bs-toggle="collapse" data-target="#paypal"
-                                                aria-controls="paypal">Card Payment</label>
-                                        </div>
+                                        <p class="text-muted font-sm mt-10">
+                                            <i class="fi-rs-truck mr-5"></i>
+                                            Pay with cash when your order is delivered to your doorstep.
+                                        </p>
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-fill-out btn-block mt-30">Place Order</button>

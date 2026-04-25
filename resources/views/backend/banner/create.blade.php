@@ -1,6 +1,6 @@
 @extends('backend.layouts.master')
 
-@section('title', 'Ecommerce Laravel || Banner Create')
+@section('title', 'Fulvari Admin | Banner Create')
 
 @section('main-content')
 
@@ -8,7 +8,7 @@
         <h5 class="card-header">Add Banner</h5>
         <div class="card-body">
             <form method="post" action="{{ route('banner.store') }}" enctype="multipart/form-data">
-                {{ csrf_field() }}
+                @csrf
                 <div class="form-group">
                     <label for="inputTitle" class="col-form-label">Title <span class="text-danger">*</span></label>
                     <input id="inputTitle" type="text" name="title" placeholder="Enter title"
@@ -27,14 +27,11 @@
                 </div>
 
                 <div class="form-group">
-                    <div class="form-group">
-                        <label for="photo" class="col-form-label">Photo</label>
-                        <input id="photo" type="file" name="photo[]" value="{{ old('photo') }}"
-                            class="form-control">
-                        @error('photo')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
+                    <label for="photo" class="col-form-label">Photo <span class="text-danger">*</span></label>
+                    <input id="photo" type="file" name="photo" class="form-control">
+                    @error('photo')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <div class="form-group">
@@ -53,7 +50,7 @@
                 </div>
             </form>
         </div>
-    </div><!-- Visit 'codeastro' for more projects -->
+    </div>
 
 @endsection
 

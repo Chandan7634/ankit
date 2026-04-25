@@ -265,7 +265,7 @@
                                             <div class="card-body">
                                                 {{-- <p>Already have an account? <a href="page-login-register.html">Log in
                                                         instead!</a></p> --}}
-                                                <form method="POST" {{ route('change.password') }} name="enq">
+                                                <form method="POST" action="{{ route('change.password') }}" name="enq">
                                                     @csrf
 
                                                     @foreach ($errors->all() as $error)

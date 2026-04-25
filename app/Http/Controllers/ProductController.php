@@ -6,215 +6,119 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Brand;
-
 use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $products=Product::getAllProduct();
-        // return $products;
-        return view('backend.product.index')->with('products',$products);
+        return view('backend.product.index', ['products' => Product::getAllProduct()]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        $brand=Brand::get();
-        $category=Category::where('is_parent',1)->get();
-        // return $category;
-        return view('backend.product.create')->with('categories',$category)->with('brands',$brand);
+        return view('backend.product.create', [
+            'categories' => Category::parent()->get(),
+            'brands'     => Brand::orderBy('title')->get(),
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        // return $request->all();
-        $this->validate($request,[
-            'title'=>'string|required',
-            'summary'=>'string|required',
-            'description'=>'string|nullable',
-            'photo' => 'required',
-            'size'=>'nullable',
-            'stock'=>"required|numeric",
-            'cat_id'=>'required|exists:categories,id',
-            'brand_id'=>'nullable|exists:brands,id',
-            'child_cat_id'=>'nullable|exists:categories,id',
-            'is_featured'=>'sometimes|in:1',
-            'status'=>'required|in:active,inactive',
-            'condition'=>'required|in:default,new,hot',
-            'price'=>'required|numeric',
-            'discount'=>'nullable|numeric'
+        $request->validate([
+            'title'       => 'required|string|max:200',
+            'summary'     => 'required|string',
+            'description' => 'nullable|string',
+            'photo'       => 'required|array|min:1',
+            'photo.*'     => 'image|max:2048',
+            'size'        => 'nullable|array',
+            'stock'       => 'required|numeric|min:0',
+            'cat_id'      => 'required|exists:categories,id',
+            'child_cat_id' => 'nullable|exists:categories,id',
+            'brand_id'    => 'nullable|exists:brands,id',
+            'is_featured' => 'sometimes|boolean',
+            'status'      => 'required|in:active,inactive',
+            'condition'   => 'required|in:default,new,hot',
+            'price'       => 'required|numeric|min:0',
+            'discount'    => 'nullable|numeric|min:0|max:100',
         ]);
 
-        $data=$request->all();
-        $uploadedPaths = [];
-
-         foreach ($request->file('photo') as $image) {
-            $path = $image->store('product', 'public');
-            $uploadedPaths[] = $path;
+        $photos = [];
+        foreach ($request->file('photo') as $image) {
+            $photos[] = $image->store('product', 'public');
         }
 
-        $data['photo'] = implode(',',$uploadedPaths);
-        // return $data['photo'];
+        $slug = $this->uniqueSlug($request->title, Product::class);
 
-        $slug=Str::slug($request->title);
-        $count=Product::where('slug',$slug)->count();
-        if($count>0){
-            $slug=$slug.'-'.date('ymdis').'-'.rand(0,999);
-        }
-        $data['slug']=$slug;
-        $data['is_featured']=$request->input('is_featured',0);
-        
-        $size=$request->input('size');
-        if($size){
-            $data['size']=implode(',',$size);
-        }
-        else{
-            $data['size']='';
-        }
-        // return $size;
-        // return $data;
-        $status=Product::create($data);
-        if($status){
-            request()->session()->flash('success','Product added');
-        }
-        else{
-            request()->session()->flash('error','Please try again!!');
-        }
-        return redirect()->route('product.index');
+        Product::create(array_merge($request->except(['photo', 'size', '_token']), [
+            'slug'        => $slug,
+            'photo'       => implode(',', $photos),
+            'size'        => $request->size ? implode(',', $request->size) : '',
+            'is_featured' => $request->boolean('is_featured'),
+        ]));
 
+        return redirect()->route('product.index')->with('success', 'Product added successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        $brand=Brand::get();
-        $product=Product::findOrFail($id);
-        $category=Category::where('is_parent',1)->get();
-        $items=Product::where('id',$id)->get();
-        // return $items;
-        return view('backend.product.edit')->with('product',$product)
-                    ->with('brands',$brand)
-                    ->with('categories',$category)->with('items',$items);
+        return view('backend.product.edit', [
+            'product'    => Product::findOrFail($id),
+            'categories' => Category::parent()->get(),
+            'brands'     => Brand::orderBy('title')->get(),
+            'items'      => Product::where('id', $id)->get(),
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        $product=Product::findOrFail($id);
-        $this->validate($request,[
-            'title'=>'string|required',
-            'summary'=>'string|required',
-            'description'=>'string|nullable',
-            'photo'=>'sometimes',
-            'size'=>'nullable',
-            'stock'=>"required|numeric",
-            'cat_id'=>'required|exists:categories,id',
-            'child_cat_id'=>'nullable|exists:categories,id',
-            'is_featured'=>'sometimes|in:1',
-            'brand_id'=>'nullable|exists:brands,id',
-            'status'=>'required|in:active,inactive',
-            'condition'=>'required|in:default,new,hot',
-            'price'=>'required|numeric',
-            'discount'=>'nullable|numeric'
+        $product = Product::findOrFail($id);
+
+        $request->validate([
+            'title'        => 'required|string|max:200',
+            'summary'      => 'required|string',
+            'description'  => 'nullable|string',
+            'photo'        => 'sometimes|array',
+            'photo.*'      => 'image|max:2048',
+            'size'         => 'nullable|array',
+            'stock'        => 'required|numeric|min:0',
+            'cat_id'       => 'required|exists:categories,id',
+            'child_cat_id' => 'nullable|exists:categories,id',
+            'brand_id'     => 'nullable|exists:brands,id',
+            'is_featured'  => 'sometimes|boolean',
+            'status'       => 'required|in:active,inactive',
+            'condition'    => 'required|in:default,new,hot',
+            'price'        => 'required|numeric|min:0',
+            'discount'     => 'nullable|numeric|min:0|max:100',
         ]);
 
-        $data=$request->all();
-        $data['is_featured']=$request->input('is_featured',0);
-        
-        // Handle Photo Upload
+        $data = $request->except(['photo', 'size', '_token', '_method']);
+        $data['is_featured'] = $request->boolean('is_featured');
+        $data['size']        = $request->size ? implode(',', $request->size) : '';
+
         if ($request->hasFile('photo')) {
-            $uploadedPaths = [];
+            $photos = [];
             foreach ($request->file('photo') as $image) {
-                $path = $image->store('product', 'public');
-                $uploadedPaths[] = $path;
+                $photos[] = $image->store('product', 'public');
             }
-            $data['photo'] = implode(',', $uploadedPaths);
-        } else {
-             // If no new photo, keep the old one (or if you want to allow deleting all photos, handle that differently. 
-             // Typically if input is empty, we don't overwrite with null unless intended)
-             // Check if we need to preserve old photo or if the form sends old photo as hidden input?
-             // Looking at edit.blade.php, it doesn't seem to send old photo as hidden field.
-             // So if no file is uploaded, we should unset 'photo' from data to prevent overwriting with null/empty if it's not in request data as string.
-             // But $request->all() might contain it?
-             if(!isset($data['photo'])){
-                 unset($data['photo']);
-             }
+            $data['photo'] = implode(',', $photos);
         }
 
-        $size=$request->input('size');
-        if($size){
-            $data['size']=implode(',',$size);
-        }
-        else{
-            $data['size']='';
-        }
-        // return $data;
-        $status=$product->fill($data)->save();
-        if($status){
-            request()->session()->flash('success','Product updated');
-        }
-        else{
-            request()->session()->flash('error','Please try again!!');
-        }
-        return redirect()->route('product.index');
+        $product->fill($data)->save();
+
+        return redirect()->route('product.index')->with('success', 'Product updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        $product=Product::findOrFail($id);
-        $status=$product->delete();
-        
-        if($status){
-            request()->session()->flash('success','Product deleted');
-        }
-        else{
-            request()->session()->flash('error','Error while deleting product');
-        }
-        return redirect()->route('product.index');
+        Product::findOrFail($id)->delete();
+        return redirect()->route('product.index')->with('success', 'Product deleted successfully.');
+    }
+
+    private function uniqueSlug(string $title, string $model): string
+    {
+        $slug  = Str::slug($title);
+        $count = $model::where('slug', 'like', $slug . '%')->count();
+        return $count ? $slug . '-' . now()->format('ymdHis') : $slug;
     }
 }

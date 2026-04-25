@@ -1,11 +1,11 @@
 @extends('backend.layouts.master')
-@section('title', 'Ecommerce Laravel || Banner Edit')
+@section('title', 'Fulvari Admin | Banner Edit')
 @section('main-content')
 
     <div class="card">
         <h5 class="card-header">Edit Banner</h5>
         <div class="card-body">
-            <form method="post" action="{{ route('banner.update', $banner->id) }}">
+            <form method="post" action="{{ route('banner.update', $banner->id) }}" enctype="multipart/form-data">
                 @csrf
                 @method('PATCH')
                 <div class="form-group">
@@ -27,16 +27,12 @@
 
                 <div class="form-group">
                     <label for="inputPhoto" class="col-form-label">Photo <span class="text-danger">*</span></label>
-                    <div class="input-group">
-                        <span class="input-group-btn">
-                            <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
-                                <i class="fa fa-picture-o"></i> Choose
-                            </a>
-                        </span>
-                        <input id="thumbnail" class="form-control" type="text" name="photo"
-                            value="{{ $banner->photo }}">
+                    <input id="inputPhoto" type="file" name="photo" class="form-control">
+                    <div id="holder" style="margin-top:15px;max-height:100px;">
+                        @if ($banner->photo)
+                            <img src="{{ Storage::url($banner->photo) }}" style="max-height: 100px;">
+                        @endif
                     </div>
-                    <div id="holder" style="margin-top:15px;max-height:100px;"></div>
                     @error('photo')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
@@ -57,7 +53,7 @@
                 </div>
             </form>
         </div>
-    </div><!-- Visit 'codeastro' for more projects -->
+    </div>
 
 @endsection
 

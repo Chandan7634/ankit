@@ -99,18 +99,18 @@
                                     <div class="detail-info">
                                         <h3 class="title-detail mt-30">{{ $product->title }}</h3>
                                         <div class="product-detail-rating">
-                                            {{-- <div class="pro-details-brand">
-                                                <span> Brands:
-                                                    <a
-                                                        href="javascript:void(0)">{{ @ucwords($product->brand->title) }}</a></span>
-                                            </div> --}}
                                             <div class="product-rate-cover text-end">
                                                 <div class="product-rate d-inline-block">
-                                                    <div class="product-rating" style="width:90%">
+                                                    @php
+                                                        $avg_rating = $product->getReview->avg('rate');
+                                                    @endphp
+                                                    <div class="product-rating" style="width:{{ $avg_rating * 20 }}%">
                                                     </div>
                                                 </div>
-                                                <span class="font-small ml-5 text-muted"> ({{ rand(50, 100) }}
-                                                    reviews)</span>
+                                                <span class="font-small ml-5 text-muted">
+                                                    ({{ $product->getReview->count() }}
+                                                    reviews)
+                                                </span>
                                             </div>
                                         </div>
                                         <div class="clearfix product-price-cover">
@@ -221,20 +221,16 @@
                                     <div class="detail-info">
                                         <h2 class="title-detail">{{ $product_detail->title }}</h2>
                                         <div class="product-detail-rating">
-                                            {{-- <div class="pro-details-brand">
-                                                <span> Brands: <a
-                                                        href="shop-grid-right.html">{{ $product_detail->brand->title }}</a></span>
-                                            </div> --}}
                                             @php
-                                                $rating = rand(4, 5);
+                                                $rate = ceil($product_detail->getReview->avg('rate'));
                                             @endphp
                                             <div class="product-rate-cover text-end">
-                                                {{-- {{ $product_detail['getReview']->count() }} --}}
                                                 <div class="product-rate d-inline-block">
-                                                    <div class="product-rating" style="width:{{ $rating * 20 }}%">
+                                                    <div class="product-rating" style="width:{{ $rate * 20 }}%">
                                                     </div>
                                                 </div>
-                                                <span class="font-small ml-5 text-muted"> ({{ $rating }}
+                                                <span class="font-small ml-5 text-muted">
+                                                    ({{ $product_detail->getReview->count() }}
                                                     reviews)</span>
                                             </div>
                                         </div>
@@ -408,43 +404,32 @@
                                                 <h4 class="mb-30">Customer reviews</h4>
                                                 <div class="d-flex mb-30">
                                                     <div class="product-rate d-inline-block mr-15">
-                                                        <div class="product-rating" style="width:90%">
+                                                        <div class="product-rating"
+                                                            style="width:{{ $product_detail->getReview->avg('rate') * 20 }}%">
                                                         </div>
                                                     </div>
-                                                    <h6>4.8 out of 5</h6>
+                                                    <h6>{{ number_format($product_detail->getReview->avg('rate'), 1) }} out
+                                                        of 5</h6>
                                                 </div>
-                                                <div class="progress">
-                                                    <span>5 star</span>
-                                                    <div class="progress-bar" role="progressbar" style="width: 80%;"
-                                                        aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">80%
+                                                @php
+                                                    $reviews = $product_detail->getReview;
+                                                    $total_reviews = $reviews->count();
+                                                @endphp
+                                                @foreach ([5, 4, 3, 2, 1] as $star)
+                                                    @php
+                                                        $count = $reviews->where('rate', $star)->count();
+                                                        $percent =
+                                                            $total_reviews > 0 ? ($count / $total_reviews) * 100 : 0;
+                                                    @endphp
+                                                    <div class="progress">
+                                                        <span>{{ $star }} star</span>
+                                                        <div class="progress-bar" role="progressbar"
+                                                            style="width: {{ $percent }}%;"
+                                                            aria-valuenow="{{ $percent }}" aria-valuemin="0"
+                                                            aria-valuemax="100">{{ round($percent) }}%
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="progress">
-                                                    <span>4 star</span>
-                                                    <div class="progress-bar" role="progressbar" style="width: 75%;"
-                                                        aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">75%
-                                                    </div>
-                                                </div>
-                                                <div class="progress">
-                                                    <span>3 star</span>
-                                                    <div class="progress-bar" role="progressbar" style="width: 65%;"
-                                                        aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">65%
-                                                    </div>
-                                                </div>
-                                                <div class="progress">
-                                                    <span>2 star</span>
-                                                    <div class="progress-bar" role="progressbar" style="width: 65%;"
-                                                        aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">65%
-                                                    </div>
-                                                </div>
-                                                <div class="progress mb-30">
-                                                    <span>1 star</span>
-                                                    <div class="progress-bar" role="progressbar" style="width: 5%;"
-                                                        aria-valuenow="5" aria-valuemin="0" aria-valuemax="100">5%
-                                                    </div>
-                                                </div>
-                                                <a href="#" class="font-xs text-muted">How are ratings
-                                                    calculated?</a>
+                                                @endforeach
                                             </div>
                                         </div>
                                     </div>
@@ -591,8 +576,13 @@
                                                                 <h2><a
                                                                         href="{{ route('product-detail', $product->slug) }}">{{ $product->title }}</a>
                                                                 </h2>
-                                                                <div class="rating-result" title="{{ rand(75, 95) }}%">
+                                                                @php
+                                                                    $avg_rating = $product->getReview->avg('rate');
+                                                                @endphp
+                                                                <div class="rating-result"
+                                                                    title="{{ $avg_rating * 20 }}%">
                                                                     <span>
+                                                                        <span>{{ number_format($avg_rating * 20, 0) }}%</span>
                                                                     </span>
                                                                 </div>
                                                                 @php

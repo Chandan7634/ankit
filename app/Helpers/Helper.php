@@ -1,183 +1,133 @@
 <?php
+
 namespace App\Helpers;
+
 use App\Models\Cart;
-use App\Models\Order;
-use App\Models\Message;
-use App\Models\PostTag;
 use App\Models\Category;
+use App\Models\Message;
+use App\Models\Order;
+use App\Models\PostCategory;
+use App\Models\PostTag;
 use App\Models\Shipping;
 use App\Models\Wishlist;
-use App\Models\PostCategory;
 use Illuminate\Support\Facades\Auth;
-// use Auth;
-class Helper{
+
+class Helper
+{
     public static function messageList()
     {
-        return Message::whereNull('read_at')->orderBy('created_at', 'desc')->get();
-    } 
-    public static function getAllCategory(){
-        $category=new Category();
-        $menu=$category->getAllParentWithChild();
-        return $menu;
-    } 
-    
-    public static function getHeaderCategory(){
-        $category = new Category();
-        // dd($category);
-        $menu=$category->getAllParentWithChild();
-
-        if($menu){
-            ?>
-            
-            <li>
-            <a href="javascript:void(0);">Category<i class="ti-angle-down"></i></a>
-            <ul class="sub-menu">
-                <?php
-                    foreach($menu as $cat_info){
-                        if($cat_info->child_cat->count()>0){
-                            ?>
-                            <li><a href="<?php echo route('product-cat',$cat_info->slug); ?>"><?php echo $cat_info->title; ?></a>
-                                    <?php
-                                    foreach($cat_info->child_cat as $sub_menu){
-                                        ?>
-                                        <li><a href="<?php echo route('product-sub-cat',[$cat_info->slug,$sub_menu->slug]); ?>"><?php echo $sub_menu->title; ?></a></li>
-                                        <?php
-                                    }
-                                    ?>
-                                </ul>
-                            </li>
-                            <?php
-                        }
-                        else{
-                            ?>
-                                <li><a href="<?php echo route('product-cat',$cat_info->slug);?>"><?php echo $cat_info->title; ?></a></li>
-                            <?php
-                        }
-                    }
-                    ?>
-                </ul>
-            </li>
-        <?php
-        }
+        return Message::whereNull('read_at')->orderByDesc('created_at')->get();
     }
 
-    public static function productCategoryList($option='all'){
-        if($option='all'){
-            return Category::orderBy('id','DESC')->get();
-        }
-        return Category::has('products')->orderBy('id','DESC')->get();
+    public static function getAllCategory()
+    {
+        return (new Category)->getAllParentWithChild();
     }
 
-    public static function postTagList($option='all'){
-        if($option='all'){
-            return PostTag::orderBy('id','desc')->get();
+    public static function getHeaderCategory()
+    {
+        $menu = Category::getAllParentWithChild();
+        if ($menu->isEmpty()) {
+            return;
         }
-        return PostTag::has('posts')->orderBy('id','desc')->get();
+        echo '<li><a href="javascript:void(0);">Category <i class="ti-angle-down"></i></a><ul class="sub-menu">';
+        foreach ($menu as $cat) {
+            echo '<li><a href="' . route('product-cat', $cat->slug) . '">' . e($cat->title) . '</a>';
+            if ($cat->child_cat->isNotEmpty()) {
+                echo '<ul>';
+                foreach ($cat->child_cat as $sub) {
+                    echo '<li><a href="' . route('product-sub-cat', [$cat->slug, $sub->slug]) . '">' . e($sub->title) . '</a></li>';
+                }
+                echo '</ul>';
+            }
+            echo '</li>';
+        }
+        echo '</ul></li>';
     }
 
-    public static function postCategoryList($option="all"){
-        if($option='all'){
-            return PostCategory::orderBy('id','DESC')->get();
+    public static function productCategoryList(string $option = 'all')
+    {
+        if ($option === 'all') {
+            return Category::orderByDesc('id')->get();
         }
-        return PostCategory::has('posts')->orderBy('id','DESC')->get();
+        return Category::has('products')->orderByDesc('id')->get();
     }
-    // Cart Count
-    public static function cartCount($user_id=''){
-       
-        if(Auth::check()){
-            if($user_id=="") $user_id=auth()->user()->id;
-            // return Cart::where('user_id',$user_id)->where('order_id',null)->sum('quantity');
-            return Cart::where('user_id',$user_id)->where('order_id',null)->count();
+
+    public static function postTagList(string $option = 'all')
+    {
+        if ($option === 'all') {
+            return PostTag::orderByDesc('id')->get();
         }
-        else{
+        return PostTag::has('posts')->orderByDesc('id')->get();
+    }
+
+    public static function postCategoryList(string $option = 'all')
+    {
+        if ($option === 'all') {
+            return PostCategory::orderByDesc('id')->get();
+        }
+        return PostCategory::has('posts')->orderByDesc('id')->get();
+    }
+
+    public static function cartCount()
+    {
+        if (! Auth::check()) {
             return 0;
         }
-    }
-    // relationship cart with product
-    public function product(){
-        return $this->hasOne('App\Models\Product','id','product_id');
+        return Cart::where('user_id', auth()->id())->whereNull('order_id')->count();
     }
 
-    public static function getAllProductFromCart($user_id=''){
-        if(Auth::check()){
-            if($user_id=="") $user_id=auth()->user()->id;
-            return Cart::with('product')->where('user_id',$user_id)->where('order_id',null)->get();
+    public static function getAllProductFromCart()
+    {
+        if (! Auth::check()) {
+            return collect();
         }
-        else{
-            return 0;
-        }
-    }
-    // Total amount cart
-    public static function totalCartPrice($user_id=''){
-        if(Auth::check()){
-            if($user_id=="") $user_id=auth()->user()->id;
-            return Cart::where('user_id',$user_id)->where('order_id',null)->sum('amount');
-            // $data =  Cart::where('user_id',$user_id)->where('order_id',null)->sum('price');
-        }
-        else{
-            return 0;
-        }
-    }
-    // Wishlist Count
-    public static function wishlistCount($user_id=''){
-       
-        if(Auth::check()){
-            if($user_id=="") $user_id=auth()->user()->id;
-            return Wishlist::where('user_id',$user_id)->where('cart_id',null)->sum('quantity');
-        }
-        else{
-            return 0;
-        }
-    }
-    public static function getAllProductFromWishlist($user_id=''){
-        if(Auth::check()){
-            if($user_id=="") $user_id=auth()->user()->id;
-            return Wishlist::with('product')->where('user_id',$user_id)->where('cart_id',null)->get();
-        }
-        else{
-            return 0;
-        }
-    }
-    public static function totalWishlistPrice($user_id=''){
-        if(Auth::check()){
-            if($user_id=="") $user_id=auth()->user()->id;
-            // return Wishlist::where('user_id',$user_id)->where('cart_id',null)->sum('amount');
-            return Wishlist::where('user_id',$user_id)->where('cart_id',null)->sum('price');
-
-        }
-        else{
-            return 0;
-        }
+        return Cart::with('product')->where('user_id', auth()->id())->whereNull('order_id')->get();
     }
 
-    // Total price with shipping and coupon
-    public static function grandPrice($id,$user_id){
-        $order=Order::find($id);
-        dd($id);
-        if($order){
-            $shipping_price=(float)$order->shipping->price;
-            $order_price=self::orderPrice($id,$user_id);
-            return number_format((float)($order_price+$shipping_price),2,'.','');
-        }else{
+    public static function totalCartPrice()
+    {
+        if (! Auth::check()) {
             return 0;
         }
+        return Cart::where('user_id', auth()->id())->whereNull('order_id')->sum('amount');
     }
 
-
-    // Admin home
-    public static function earningPerMonth(){
-        $month_data=Order::where('status','delivered')->get();
-        // return $month_data;
-        $price=0;
-        foreach($month_data as $data){
-            $price = $data->cart_info->sum('price');
+    public static function wishlistCount()
+    {
+        if (! Auth::check()) {
+            return 0;
         }
-        return number_format((float)($price),2,'.','');
+        return Wishlist::where('user_id', auth()->id())->whereNull('cart_id')->count();
     }
 
-    public static function shipping(){
-        return Shipping::orderBy('id','DESC')->get();
+    public static function getAllProductFromWishlist()
+    {
+        if (! Auth::check()) {
+            return collect();
+        }
+        return Wishlist::with('product')->where('user_id', auth()->id())->whereNull('cart_id')->get();
+    }
+
+    public static function totalWishlistPrice()
+    {
+        if (! Auth::check()) {
+            return 0;
+        }
+        return Wishlist::where('user_id', auth()->id())->whereNull('cart_id')->sum('price');
+    }
+
+    public static function earningPerMonth()
+    {
+        $total = 0;
+        foreach (Order::where('status', 'delivered')->with('cart_info')->get() as $order) {
+            $total += $order->cart_info->sum('amount');
+        }
+        return number_format((float) $total, 2, '.', '');
+    }
+
+    public static function shipping()
+    {
+        return Shipping::orderByDesc('id')->get();
     }
 }
-
-?>
