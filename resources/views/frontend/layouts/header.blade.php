@@ -5,7 +5,7 @@
                 <div class="col-xl-3 col-lg-4">
                     <div class="header-info">
                         <ul>
-                            <li><i class="fi-rs-smartphone"></i> <a href="tel:8521223138">(+91) 8521223138</a></li>
+                            <li><i class="fi-rs-smartphone"></i> <a href="tel:7667459049">(+91) 7667459049</a></li>
                             <li><i class="fi-rs-marker"></i><a href="javascript:void(0)">Our location</a></li>
                         </ul>
                     </div>
@@ -337,7 +337,7 @@
                     </div>
                 @endauth
                 <div class="single-mobile-header-info">
-                    <a href="#">(+91) 8521223138 </a>
+                    <a href="#">(+91) 7667459049 </a>
                 </div>
             </div>
             <div class="mobile-social-icon">

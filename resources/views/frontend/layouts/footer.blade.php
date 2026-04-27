@@ -14,7 +14,7 @@
                             Tempore, provident.
                         </p>
                         <p class="wow fadeIn animated animated animated" style="visibility: visible;">
-                            <strong>Phone: </strong>+91 8521223138 /(+91) 8521223138
+                            <strong>Phone: </strong>+91 7667459049 /(+91) 7667459049
                         </p>
                         <p class="wow fadeIn animated animated animated" style="visibility: visible;">
                             <strong>Hours: </strong>10:00 - 18:00, Mon - Sat
