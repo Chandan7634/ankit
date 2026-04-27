@@ -61,10 +61,10 @@
                                             name="login">Log
                                             in</button>
                                     </div>
-                                    <!-- OR
+                                    {{-- OR
                                                                                                                                                                                                                                     <a href="{{ route('login.redirect', 'facebook') }}" class="btn btn-facebook"><i class="ti-facebook"></i></a>
                                                                                                                                                                                                                                     <a href="{{ route('login.redirect', 'github') }}" class="btn btn-github"><i class="ti-github"></i></a>
-                                                                                                                                                                                                                                    <a href="{{ route('login.redirect', 'google') }}" class="btn btn-google"><i class="ti-google"></i></a> -->
+                                                                                                                                                                                                                                    <a href="{{ route('login.redirect', 'google') }}" class="btn btn-google"><i class="ti-google"></i></a> --}}
                                     </form>
                                     <div class="text-muted text-center">Don't have account? <a
                                             href="{{ route('register.form') }}">Register</a></div>
