@@ -338,7 +338,7 @@
             <!--End tab-content-->
         </div>
     </section>
-    <section class="banner-2 section-padding pb-0">
+    {{-- <section class="banner-2 section-padding pb-0">
         <div class="container">
             <div class="banner-img banner-big wow fadeIn animated f-none">
                 <img src="{{ asset('frontend/images/banner-4.png') }}" alt="">
@@ -350,7 +350,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
     <section class="popular-categories section-padding mt-15 mb-25">
         <div class="container wow fadeIn animated">
             <h3 class="section-title mb-20"><span>Popular</span> Categories</h3>
