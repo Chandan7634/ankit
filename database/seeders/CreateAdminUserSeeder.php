@@ -24,6 +24,9 @@ class CreateAdminUserSeeder extends Seeder
             'name' => 'Chandan',
             'email' => 'chandan@gmail.com',
             'password' => Hash::make('admin@123'),
+            'role' => 'admin',
+            'phone_number' => '1234567890',
+            'status' => 'active',
         ]);
     }
 }

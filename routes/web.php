@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -165,3 +166,9 @@ Route::group(['prefix'=>'/user','middleware'=>['user']],function(){
 
 });
 
+// Serve storage files directly (symlink not available on this environment)
+Route::get('/storage/{path}', function (string $path) {
+    $fullPath = storage_path('app/public/' . $path);
+    abort_unless(file_exists($fullPath), 404);
+    return response()->file($fullPath);
+})->where('path', '.*')->name('storage.serve');
