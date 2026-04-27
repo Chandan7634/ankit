@@ -45,7 +45,7 @@
         <div class="container">
             <div class="header-wrap">
                 <div class="logo logo-width-1">
-                    <a href="../"><img src="{{ Storage::url('web/logo.svg') }}" alt="logo"></a>
+                    <a href="../"><img src="{{ asset('frontend/images/logo.svg') }}" alt="logo"></a>
                 </div>
                 <div class="header-right">
                     <div class="search-style-2">
@@ -66,7 +66,7 @@
                             <div class="header-action-icon-2">
                                 <a href="{{ route('wishlist') }}" class="me-1">
                                     <img class="svgInject" alt="icon"
-                                        src="{{ Storage::url('web/icon-heart.svg') }}">
+                                        src="{{ asset('frontend/images/icon-heart.svg') }}">
                                     <span class="pro-count blue">
                                         {{ App\Helpers\Helper::wishlistCount() }}
                                     </span>
@@ -123,7 +123,7 @@
                             @endauth
                             <div class="header-action-icon-2">
                                 <a class="mini-cart-icon" href="{{ route('cart') }}">
-                                    <img alt="Fulvari" src="{{ Storage::url('web/icon-cart.svg') }}">
+                                    <img alt="Fulvari" src="{{ asset('frontend/images/icon-cart.svg') }}">
                                     <span class="pro-count blue">
                                         {{ App\Helpers\Helper::cartCount() }}
                                     </span>
@@ -183,7 +183,7 @@
         <div class="container">
             <div class="header-wrap header-space-between position-relative">
                 <div class="logo logo-width-1 d-block d-lg-none">
-                    <a href="./"><img src="{{ Storage::url('web/logo.svg') }}" alt="logo"></a>
+                    <a href="./"><img src="{{ asset('frontend/images/logo.svg') }}" alt="logo"></a>
                 </div>
                 <div class="header-nav d-none d-lg-flex">
                     <div class="main-menu main-menu-padding-1 main-menu-lh-2 d-none d-lg-block">
@@ -216,15 +216,15 @@
                     <div class="header-action-2">
                         <div class="header-action-icon-2">
                             <a href="{{ route('wishlist') }}">
-                                <img alt="Fulvari" src="frontend/images/icon-heart.svg">
+                                <img alt="Fulvari" src="{{ asset('frontend/images/icon-heart.svg') }}">
                                 <span class="pro-count white">
                                     {{ App\Helpers\Helper::wishlistCount() }}
                                 </span>
                             </a>
                         </div>
                         <div class="header-action-icon-2">
-                            <a class="mini-cart-icon" href="shop-cart.html">
-                                <img alt="Fulvari" src="frontend/images/icon-cart.svg">
+                            <a class="mini-cart-icon" href="{{ route('cart') }}">
+                                <img alt="Fulvari" src="{{ asset('frontend/images/icon-cart.svg') }}">
                                 <span class="pro-count white">2</span>
                             </a>
                             @auth
@@ -286,7 +286,7 @@
     <div class="mobile-header-wrapper-inner">
         <div class="mobile-header-top">
             <div class="mobile-header-logo">
-                <a href="../"><img src="{{ Storage::url('web/logo.svg') }}" alt="logo"></a>
+                <a href="../"><img src="{{ asset('frontend/images/logo.svg') }}" alt="logo"></a>
             </div>
             <div class="mobile-menu-close close-style-wrap close-style-position-inherit">
                 <button class="close-style search-close">
@@ -342,11 +342,11 @@
             </div>
             <div class="mobile-social-icon">
                 <h5 class="mb-15 text-grey-4">Follow Us</h5>
-                <a href="#"><img src="{{ Storage::url('web/icon-facebook.svg') }}" alt=""></a>
-                <a href="#"><img src="{{ Storage::url('web/icon-twitter.svg') }}" alt=""></a>
-                <a href="#"><img src="{{ Storage::url('web/icon-instagram.svg') }}" alt=""></a>
-                <a href="#"><img src="{{ Storage::url('web/icon-pinterest.svg') }}" alt=""></a>
-                <a href="#"><img src="{{ Storage::url('web/icon-youtube.svg') }}" alt=""></a>
+                <a href="#"><img src="{{ asset('frontend/images/icon-facebook.svg') }}" alt=""></a>
+                <a href="#"><img src="{{ asset('frontend/images/icon-twitter.svg') }}" alt=""></a>
+                <a href="#"><img src="{{ asset('frontend/images/icon-instagram.svg') }}" alt=""></a>
+                <a href="#"><img src="{{ asset('frontend/images/icon-pinterest.svg') }}" alt=""></a>
+                <a href="#"><img src="{{ asset('frontend/images/icon-youtube.svg') }}" alt=""></a>
             </div>
         </div>
     </div>

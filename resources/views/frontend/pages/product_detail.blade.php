@@ -364,7 +364,7 @@
                                                                         <img src="{{ $data->user_info['photo'] }}"
                                                                             alt="{{ $data->user_info['photo'] }}">
                                                                     @else
-                                                                        <img src="{{ Storage::url('web/avatar.png') }}"
+                                                                        <img src="{{ asset('frontend/images/avatar.png') }}"
                                                                             alt="Profile.jpg">
                                                                     @endif
                                                                     <h6><a

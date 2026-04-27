@@ -341,7 +341,7 @@
     <section class="banner-2 section-padding pb-0">
         <div class="container">
             <div class="banner-img banner-big wow fadeIn animated f-none">
-                <img src="/frontend/images/banner-4.png" alt="">
+                <img src="{{ asset('frontend/images/banner-4.png') }}" alt="">
                 <div class="banner-text d-md-block d-none">
                     <h4 class="mb-15 mt-40 text-brand">Discover Your Perfect Plant</h4>
                     <h1 class="fw-600 mb-20">Bring nature home with <br> style, grace, and greenery.</h1>
@@ -522,7 +522,7 @@
                 <div class="row">
                     <div class="col-lg-3 d-none d-lg-flex">
                         <div class="banner-img style-2 wow fadeIn animated">
-                            <img src="frontend/images/banner-9.jpg" alt="">
+                            <img src="{{ asset('frontend/images/banner-9.jpg') }}" alt="">
                             <div class="banner-text">
                                 <span>Plant Area</span>
                                 <h4 class="mt-5">Save 17% on <br>Plants</h4>

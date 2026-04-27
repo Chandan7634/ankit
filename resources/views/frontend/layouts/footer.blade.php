@@ -5,7 +5,7 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="widget-about font-md mb-md-5 mb-lg-0">
                         <div class="logo logo-width-1 wow fadeIn animated animated animated" style="visibility: visible;">
-                            <a href="javascript:void(0)"><img src="{{ Storage::url('web/logo.svg') }}" alt="logo"></a>
+                            <a href="javascript:void(0)"><img src="{{ asset('frontend/images/logo.svg') }}" alt="logo"></a>
                         </div>
                         <h5 class="mt-20 mb-10 fw-600 text-grey-4 wow fadeIn animated animated animated"
                             style="visibility: visible;">Contact</h5>
@@ -24,19 +24,19 @@
                         <div class="mobile-social-icon wow fadeIn animated mb-sm-5 mb-md-0 animated animated"
                             style="visibility: visible;">
                             <a href="#">
-                                <img src="{{ Storage::url('web/icon-facebook.svg') }}" alt="">
+                                <img src="{{ asset('frontend/images/icon-facebook.svg') }}" alt="">
                             </a>
                             <a href="#">
-                                <img src="{{ Storage::url('web/icon-twitter.svg') }}" alt="">
+                                <img src="{{ asset('frontend/images/icon-twitter.svg') }}" alt="">
                             </a>
                             <a href="#">
-                                <img src="{{ Storage::url('web/icon-instagram.svg') }}" alt="">
+                                <img src="{{ asset('frontend/images/icon-instagram.svg') }}" alt="">
                             </a>
                             <a href="#">
-                                <img src="{{ Storage::url('web/icon-pinterest.svg') }}" alt="">
+                                <img src="{{ asset('frontend/images/icon-pinterest.svg') }}" alt="">
                             </a>
                             <a href="#">
-                                <img src="{{ Storage::url('web/icon-youtube.svg') }}" alt="">
+                                <img src="{{ asset('frontend/images/icon-youtube.svg') }}" alt="">
                             </a>
                         </div>
                     </div>
