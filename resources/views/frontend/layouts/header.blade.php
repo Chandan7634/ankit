@@ -6,7 +6,6 @@
                     <div class="header-info">
                         <ul>
                             <li><i class="fi-rs-smartphone"></i> <a href="tel:7667459049">(+91) 7667459049</a></li>
-                            <li><i class="fi-rs-marker"></i><a href="javascript:void(0)">Our location</a></li>
                         </ul>
                     </div>
                 </div>
@@ -45,7 +44,7 @@
         <div class="container">
             <div class="header-wrap">
                 <div class="logo logo-width-1">
-                    <a href="../"><img src="{{ asset('frontend/images/logo.svg') }}" alt="logo"></a>
+                    <a href="../"><img src="{{ asset('frontend/images/filvari-logo.jpeg') }}" alt="logo"></a>
                 </div>
                 <div class="header-right">
                     <div class="search-style-2">
@@ -183,7 +182,7 @@
         <div class="container">
             <div class="header-wrap header-space-between position-relative">
                 <div class="logo logo-width-1 d-block d-lg-none">
-                    <a href="./"><img src="{{ asset('frontend/images/logo.svg') }}" alt="logo"></a>
+                    <a href="./"><img src="{{ asset('frontend/images/filvari-logo.jpeg') }}" alt="logo"></a>
                 </div>
                 <div class="header-nav d-none d-lg-flex">
                     <div class="main-menu main-menu-padding-1 main-menu-lh-2 d-none d-lg-block">
@@ -270,7 +269,7 @@
                             @endauth
                         </div>
                         <div class="header-action-icon-2 d-block d-lg-none">
-                            <div class="burger-icon burger-icon-white">
+                            <div class="burger-icon">
                                 <span class="burger-icon-top"></span>
                                 <span class="burger-icon-mid"></span>
                                 <span class="burger-icon-bottom"></span>
@@ -286,7 +285,7 @@
     <div class="mobile-header-wrapper-inner">
         <div class="mobile-header-top">
             <div class="mobile-header-logo">
-                <a href="../"><img src="{{ asset('frontend/images/logo.svg') }}" alt="logo"></a>
+                <a href="../"><img src="{{ asset('frontend/images/filvari-logo.jpeg') }}" alt="logo"></a>
             </div>
             <div class="mobile-menu-close close-style-wrap close-style-position-inherit">
                 <button class="close-style search-close">

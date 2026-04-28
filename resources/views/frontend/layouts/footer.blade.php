@@ -5,13 +5,12 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="widget-about font-md mb-md-5 mb-lg-0">
                         <div class="logo logo-width-1 wow fadeIn animated animated animated" style="visibility: visible;">
-                            <a href="javascript:void(0)"><img src="{{ asset('frontend/images/logo.svg') }}" alt="logo"></a>
+                            <a href="javascript:void(0)"><img src="{{ asset('frontend/images/filvari-logo.jpeg') }}" alt="logo"></a>
                         </div>
                         <h5 class="mt-20 mb-10 fw-600 text-grey-4 wow fadeIn animated animated animated"
                             style="visibility: visible;">Contact</h5>
                         <p class="wow fadeIn animated animated animated" style="visibility: visible;">
-                            <strong>Address: </strong> Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                            Tempore, provident.
+                            <strong>Address: </strong> Sri Krishna Puri Boring road Patna 800001.
                         </p>
                         <p class="wow fadeIn animated animated animated" style="visibility: visible;">
                             <strong>Phone: </strong>+91 7667459049 /(+91) 7667459049
@@ -51,19 +50,17 @@
                         <li><a href="#">Privacy Policy</a></li>
                         <li><a href="#">Terms &amp; Conditions</a></li>
                         <li><a href="#">Contact Us</a></li>
-                        <li><a href="#">Support Center</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-3  col-md-3">
                     <h5 class="widget-title wow fadeIn animated animated animated" style="visibility: visible;">My
                         Account</h5>
                     <ul class="footer-list wow fadeIn animated animated animated" style="visibility: visible;">
-                        <li><a href="#">Sign In</a></li>
-                        <li><a href="#">View Cart</a></li>
-                        <li><a href="#">My Wishlist</a></li>
-                        <li><a href="#">Track My Order</a></li>
-                        <li><a href="#">Help</a></li>
-                        <li><a href="#">Order</a></li>
+                        <li><a href="{{ route('login') }}">Sign In</a></li>
+                        <li><a href="{{ route('cart') }}">View Cart</a></li>
+                        <li><a href="/wishlist">My Wishlist</a></li>
+                        <li><a href="/track-order">Track My Order</a></li>
+                        <li><a href="/order">Order</a></li>
                     </ul>
                 </div>
                 {{-- <div class="col-lg-4">
@@ -98,7 +95,7 @@
                 <div class="footer-bottom"></div>
             </div>
             <div class="col-lg-6">
-                <p class="float-md-left font-sm text-muted mb-0">© 2025, <strong class="text-brand">Chandan</strong> -
+                <p class="float-md-left font-sm text-muted mb-0">© 2026, <strong class="text-brand">Chandan</strong> -
                     chandan20004.techaccess@gmail.com</p>
             </div>
             <div class="col-lg-6">

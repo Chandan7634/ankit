@@ -2,13 +2,13 @@
     <!-- Sidebar Logo -->
     <div class="logo-box">
         <a href="javascript:void(0)" class="logo-dark">
-            <img src="{{ Storage::url('web/logo.svg') }}" class="logo-sm" alt="logo sm">
-            <img src="{{ Storage::url('web/logo.svg') }}" class="logo-lg" alt="logo dark">
+            <img src="{{ Storage::url('web/filvari-logo.jpeg') }}" class="logo-sm" alt="logo sm">
+            <img src="{{ Storage::url('web/filvari-logo.jpeg') }}" class="logo-lg" alt="logo dark">
         </a>
 
         <a href="javascript:void(0)" class="logo-light">
-            <img src="{{ Storage::url('web/logo.svg') }}" class="logo-sm" alt="logo sm">
-            <img src="{{ Storage::url('web/logo.svg') }}" class="logo-lg" alt="logo light">
+            <img src="{{ Storage::url('web/filvari-logo.jpeg') }}" class="logo-sm" alt="logo sm">
+            <img src="{{ Storage::url('web/filvari-logo.jpeg') }}" class="logo-lg" alt="logo light">
         </a>
     </div>
 

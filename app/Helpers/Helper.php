@@ -32,13 +32,15 @@ class Helper
         }
         echo '<li><a href="javascript:void(0);">Category <i class="ti-angle-down"></i></a><ul class="sub-menu">';
         foreach ($menu as $cat) {
-            echo '<li><a href="' . route('product-cat', $cat->slug) . '">' . e($cat->title) . '</a>';
             if ($cat->child_cat->isNotEmpty()) {
-                echo '<ul>';
+                echo '<li><a href="' . route('product-cat', $cat->slug) . '">' . e($cat->title) . ' <i class="ti-angle-right"></i></a>';
+                echo '<ul class="level-menu">';
                 foreach ($cat->child_cat as $sub) {
                     echo '<li><a href="' . route('product-sub-cat', [$cat->slug, $sub->slug]) . '">' . e($sub->title) . '</a></li>';
                 }
                 echo '</ul>';
+            } else {
+                echo '<li><a href="' . route('product-cat', $cat->slug) . '">' . e($cat->title) . '</a>';
             }
             echo '</li>';
         }
