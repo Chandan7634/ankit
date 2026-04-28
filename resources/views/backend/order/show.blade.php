@@ -29,8 +29,8 @@
             <td>{{$order->first_name}} {{$order->last_name}}</td>
             <td>{{$order->email}}</td>
             <td>{{$order->quantity}}</td>
-            <td>${{$order->shipping?->price ?? 0}}</td>
-            <td>${{number_format($order->total_amount,2)}}</td>
+            <td>₹{{$order->shipping?->price ?? 0}}</td>
+            <td>₹{{number_format($order->total_amount,2)}}</td>
             <td>
                 @if($order->status=='new')
                   <span class="badge badge-primary">NEW</span>
@@ -54,6 +54,36 @@
         </tr>
       </tbody>
     </table>
+
+    <section class="ordered-products mt-4">
+      <h5 class="font-weight-bold mb-3">Ordered Products</h5>
+      <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+          <tr>
+            <th>Product</th>
+            <th>Qty</th>
+            <th>Unit Price</th>
+            <th>Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach($order->cart_info as $cart)
+          <tr>
+            <td>{{ $cart->product->title ?? 'N/A' }}</td>
+            <td>{{ $cart->quantity }}</td>
+            <td>₹{{ number_format($cart->price, 2) }}</td>
+            <td>₹{{ number_format($cart->price * $cart->quantity, 2) }}</td>
+          </tr>
+          @endforeach
+        </tbody>
+        <tfoot>
+          <tr>
+            <th colspan="3" class="text-right">Total:</th>
+            <th>₹{{ number_format($order->total_amount, 2) }}</th>
+          </tr>
+        </tfoot>
+      </table>
+    </section>
 
     <section class="confirmation_part section_padding">
       <div class="order_boxes">
@@ -80,15 +110,15 @@
                     </tr>
                     <tr>
                         <td>Shipping Charge</td>
-                        <td> : $ {{$order->shipping?->price ?? 0}}</td>
+                        <td> : ₹{{$order->shipping?->price ?? 0}}</td>
                     </tr>
                     <tr>
                       <td>Coupon</td>
-                      <td> : $ {{number_format($order->coupon,2)}}</td>
+                      <td> : ₹{{number_format($order->coupon,2)}}</td>
                     </tr>
                     <tr>
                         <td>Total Amount</td>
-                        <td> : $ {{number_format($order->total_amount,2)}}</td>
+                        <td> : ₹{{number_format($order->total_amount,2)}}</td>
                     </tr>
                     <tr>
                         <!-- <td>Payment Method</td>
