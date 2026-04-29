@@ -169,6 +169,7 @@
         });
 
         var child_cat_id = '{{ $product->child_cat_id }}';
+        console.log(child_cat_id);
 
         $('#cat_id').change(function () {
             var cat_id = $(this).val();
