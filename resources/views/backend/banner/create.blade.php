@@ -58,8 +58,7 @@
     <link rel="stylesheet" href="{{ asset('assets/old/summernote/summernote.min.css') }}">
 @endpush
 @push('scripts')
-    {{-- <script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script> --}}
-    <script src="{{ asset('assets/old/summernote/summernote.min.js') }}"></script>
+<script src="{{ asset('assets/old/summernote/summernote.min.js') }}"></script>
     <script>
         $(document).ready(function() {
             $('#description').summernote({

@@ -5,7 +5,7 @@
 <div class="card">
     <h5 class="card-header">Edit Post</h5>
     <div class="card-body">
-      <form method="post" action="{{route('post.update',$post->id)}}">
+      <form method="post" action="{{route('post.update',$post->id)}}" enctype="multipart/form-data">
         @csrf 
         @method('PATCH')
         <div class="form-group">
@@ -74,17 +74,11 @@
           </select>
         </div>
         <div class="form-group">
-          <label for="inputPhoto" class="col-form-label">Photo <span class="text-danger">*</span></label>
-          <div class="input-group">
-              <span class="input-group-btn">
-                  <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
-                  <i class="fa fa-picture-o"></i> Choose
-                  </a>
-              </span>
-          <input id="thumbnail" class="form-control" type="text" name="photo" value="{{$post->photo}}">
-        </div>
-        <div id="holder" style="margin-top:15px;max-height:100px;"></div>
-
+          <label for="photo" class="col-form-label">Photo</label>
+          @if($post->photo)
+            <div class="mb-2"><img src="{{ Storage::url($post->photo) }}" style="max-height:80px;" alt="current photo"></div>
+          @endif
+          <input id="photo" type="file" name="photo" class="form-control">
           @error('photo')
           <span class="text-danger">{{$message}}</span>
           @enderror
@@ -115,13 +109,10 @@
 
 @endpush
 @push('scripts')
-<script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>
 <script src="{{asset('backend/summernote/summernote.min.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
 
 <script>
-    $('#lfm').filemanager('image');
-
     $(document).ready(function() {
     $('#summary').summernote({
       placeholder: "Write short description.....",

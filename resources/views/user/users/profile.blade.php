@@ -44,7 +44,7 @@
                 </div>
                 <div class="col-md-8">
                     <form class="border px-4 pt-2 pb-3" method="POST"
-                        action="{{ route('user-profile-update', $profile->id) }}">
+                        action="{{ route('user-profile-update', $profile->id) }}" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
                             <label for="inputTitle" class="col-form-label">Name</label>
@@ -65,16 +65,8 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="inputPhoto" class="col-form-label">Photo</label>
-                            <div class="input-group">
-                                <span class="input-group-btn">
-                                    <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
-                                        <i class="fa fa-picture-o"></i> Choose
-                                    </a>
-                                </span>
-                                <input id="thumbnail" class="form-control" type="text" name="photo"
-                                    value="{{ $profile->photo }}">
-                            </div>
+                            <label for="photo" class="col-form-label">Photo</label>
+                            <input id="photo" type="file" name="photo" class="form-control">
                             @error('photo')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -144,8 +136,4 @@
 </style>
 
 @push('scripts')
-    <script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>
-    <script>
-        $('#lfm').filemanager('image');
-    </script>
 @endpush

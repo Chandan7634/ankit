@@ -43,14 +43,14 @@ class CategoryController extends Controller
         $this->validate($request,[
             'title'=>'string|required',
             'summary'=>'string|nullable',
-            'photo' => 'required',
+            'photo' => 'required|array',
+            'photo.*' => 'image|max:2048',
             'status'=>'required|in:active,inactive',
             'is_parent'=>'sometimes|in:1',
             'parent_id'=>'nullable|exists:categories,id',
         ]);
 
          $data= $request->all();
-        // return $request->photo; 
         $uploadedPaths = [];
 
         foreach ($request->file('photo') as $image) {
@@ -119,14 +119,23 @@ class CategoryController extends Controller
         $this->validate($request,[
             'title'=>'string|required',
             'summary'=>'string|nullable',
-            'photo'=>'string|nullable',
+            'photo'=>'sometimes|array',
+            'photo.*'=>'image|max:2048',
             'status'=>'required|in:active,inactive',
             'is_parent'=>'sometimes|in:1',
             'parent_id'=>'nullable|exists:categories,id',
         ]);
-        $data= $request->all();
+        $data= $request->except(['photo', '_token', '_method']);
         $data['is_parent']=$request->input('is_parent',0);
-        // return $data;
+
+        if ($request->hasFile('photo')) {
+            $uploadedPaths = [];
+            foreach ($request->file('photo') as $image) {
+                $uploadedPaths[] = $image->store('category', 'public');
+            }
+            $data['photo'] = implode(',', $uploadedPaths);
+        }
+
         $status=$category->fill($data)->save();
         if($status){
             request()->session()->flash('success','Category updated successfully');

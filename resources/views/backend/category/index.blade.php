@@ -45,8 +45,9 @@
                                     </td>
                                     <td>
                                         @if ($category->photo)
-                                            <img src="{{ Storage::url($category->photo) }}"
-                                                alt="{{ Storage::url($category->photo) }}" class="avatar-md">
+                                            @php $catPhoto = explode(',', $category->photo)[0]; @endphp
+                                            <img src="{{ Storage::url($catPhoto) }}"
+                                                alt="{{ $category->title }}" class="avatar-md">
                                         @else
                                             <img src="{{ asset('backend/img/thumbnail-default.jpg') }}" class="img-fluid"
                                                 style="max-width:80px" alt="avatar.png">

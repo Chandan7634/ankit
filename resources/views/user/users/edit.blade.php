@@ -5,7 +5,7 @@
 <div class="card">
     <h5 class="card-header">Edit User</h5>
     <div class="card-body">
-      <form method="post" action="{{route('users.update',$user->id)}}">
+      <form method="post" action="{{route('users.update',$user->id)}}" enctype="multipart/form-data">
         @csrf 
         @method('PATCH')
         <div class="form-group">
@@ -33,16 +33,11 @@
         </div> --}}
 
         <div class="form-group">
-        <label for="inputPhoto" class="col-form-label">Photo</label>
-        <div class="input-group">
-            <span class="input-group-btn">
-                <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
-                <i class="fa fa-picture-o"></i> Choose
-                </a>
-            </span>
-            <input id="thumbnail" class="form-control" type="text" name="photo" value="{{$user->photo}}">
-        </div>
-        <img id="holder" style="margin-top:15px;max-height:100px;">
+        <label for="photo" class="col-form-label">Photo</label>
+        @if($user->photo)
+            <div class="mb-2"><img src="{{ Storage::url($user->photo) }}" style="max-height:80px;" alt="current photo"></div>
+        @endif
+        <input id="photo" type="file" name="photo" class="form-control">
           @error('photo')
           <span class="text-danger">{{$message}}</span>
           @enderror
@@ -84,8 +79,4 @@
 @endsection
 
 @push('scripts')
-<script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>
-<script>
-    $('#lfm').filemanager('image');
-</script>
 @endpush

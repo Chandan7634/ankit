@@ -36,7 +36,6 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        return $request->all();
         $this->validate($request,
         [
             'name'=>'string|required|max:30',
@@ -44,12 +43,13 @@ class UsersController extends Controller
             'password'=>'string|required',
             'role'=>'required|in:admin,user',
             'status'=>'required|in:active,inactive',
-            'photo'=>'nullable|string',
+            'photo'=>'nullable|image|max:2048',
         ]);
-        // dd($request->all());
-        $data=$request->all();
+        $data=$request->except(['photo','_token']);
         $data['password']=Hash::make($request->password);
-        // dd($data);
+        if ($request->hasFile('photo')) {
+            $data['photo'] = $request->file('photo')->store('user', 'public');
+        }
         $status=User::create($data);
         // dd($status);
         if($status){
@@ -101,12 +101,12 @@ class UsersController extends Controller
             'email'=>'string|required',
             'role'=>'required|in:admin,user',
             'status'=>'required|in:active,inactive',
-            'photo'=>'nullable|string',
+            'photo'=>'nullable|image|max:2048',
         ]);
-        // dd($request->all());
-        $data=$request->all();
-        // dd($data);
-        
+        $data=$request->except(['photo','_token','_method']);
+        if ($request->hasFile('photo')) {
+            $data['photo'] = $request->file('photo')->store('user', 'public');
+        }
         $status=$user->fill($data)->save();
         if($status){
             request()->session()->flash('success','Successfully updated');

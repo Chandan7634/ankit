@@ -179,8 +179,7 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
 @endpush
 @push('scripts')
-    {{-- <script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script> --}}
-    <script src="{{ asset('assets/old/summernote/summernote.min.js') }}"></script>
+<script src="{{ asset('assets/old/summernote/summernote.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
 
     <script>
@@ -239,35 +238,5 @@
                 });
             } else {}
         })
-    </script>
-    <script>
-        // Handle form submission to trigger upload
-        // document.getElementById("submit-button").addEventListener("click", function (e) {
-        Dropzone.autoDiscover = false;
-
-        const myDropzone = new Dropzone("#my-dropzone", {
-            url: "/admin/tempImage",
-            maxFiles: 10,
-            maxFilesize: 5,
-            acceptedFiles: "image/*",
-            addRemoveLinks: true,
-            dictRemoveFile: "Remove file",
-            autoProcessQueue: false,
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
-            init: function() {
-                // Success callback
-                this.on("success", function(file, response) {
-                    console.log("File uploaded successfully:", response);
-                });
-
-                // Error callback
-                this.on("error", function(file, errorMessage) {
-                    console.error("File upload error:", errorMessage);
-                });
-            }
-        });
-        // });
     </script>
 @endpush

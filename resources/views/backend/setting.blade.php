@@ -4,7 +4,7 @@
     <div class="card">
         <h5 class="card-header">Edit Post</h5>
         <div class="card-body">
-            <form method="post" action="{{ route('settings.update') }}">
+            <form method="post" action="{{ route('settings.update') }}" enctype="multipart/form-data">
                 @csrf
                 {{-- @method('PATCH') --}}
                 {{-- {{dd($data)}} --}}
@@ -24,38 +24,22 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="inputPhoto" class="col-form-label">Logo <span class="text-danger">*</span></label>
-                    <div class="input-group">
-                        <span class="input-group-btn">
-                            <a id="lfm1" data-input="thumbnail1" data-preview="holder1"
-                                class="btn btn-primary text-white">
-                                <i class="fa fa-picture-o"></i> Choose
-                            </a>
-                        </span>
-                        <input id="thumbnail1" class="form-control" type="text" name="logo"
-                            value="{{ $data->logo }}">
-                    </div>
-                    <div id="holder1" style="margin-top:15px;max-height:100px;"></div>
-
+                    <label for="logo" class="col-form-label">Logo</label>
+                    @if($data->logo)
+                        <div class="mb-2"><img src="{{ Storage::url($data->logo) }}" style="max-height:60px;" alt="current logo"></div>
+                    @endif
+                    <input id="logo" type="file" name="logo" class="form-control">
                     @error('logo')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
 
                 <div class="form-group">
-                    <label for="inputPhoto" class="col-form-label">Photo <span class="text-danger">*</span></label>
-                    <div class="input-group">
-                        <span class="input-group-btn">
-                            <a id="lfm" data-input="thumbnail" data-preview="holder"
-                                class="btn btn-primary text-white">
-                                <i class="fa fa-picture-o"></i> Choose
-                            </a>
-                        </span>
-                        <input id="thumbnail" class="form-control" type="text" name="photo"
-                            value="{{ $data->photo }}">
-                    </div>
-                    <div id="holder" style="margin-top:15px;max-height:100px;"></div>
-
+                    <label for="photo" class="col-form-label">Photo</label>
+                    @if($data->photo)
+                        <div class="mb-2"><img src="{{ Storage::url($data->photo) }}" style="max-height:80px;" alt="current photo"></div>
+                    @endif
+                    <input id="photo" type="file" name="photo" class="form-control">
                     @error('photo')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
@@ -97,13 +81,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
 @endpush
 @push('scripts')
-    <script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>
     <script src="{{ asset('backend/summernote/summernote.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
 
     <script>
-        $('#lfm').filemanager('image');
-        $('#lfm1').filemanager('image');
         $(document).ready(function() {
             $('#summary').summernote({
                 placeholder: "Write short description.....",

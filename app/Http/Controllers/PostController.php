@@ -50,14 +50,18 @@ class PostController extends Controller
             'quote'=>'string|nullable',
             'summary'=>'string|required',
             'description'=>'string|nullable',
-            'photo'=>'string|nullable',
+            'photo'=>'nullable|image|max:2048',
             'tags'=>'nullable',
             'added_by'=>'nullable',
             'post_cat_id'=>'required',
             'status'=>'required|in:active,inactive'
         ]);
 
-        $data=$request->all();
+        $data=$request->except(['photo','_token']);
+
+        if ($request->hasFile('photo')) {
+            $data['photo'] = $request->file('photo')->store('post', 'public');
+        }
 
         $slug=Str::slug($request->title);
         $count=Post::where('slug',$slug)->count();
@@ -127,14 +131,19 @@ class PostController extends Controller
             'quote'=>'string|nullable',
             'summary'=>'string|required',
             'description'=>'string|nullable',
-            'photo'=>'string|nullable',
+            'photo'=>'nullable|image|max:2048',
             'tags'=>'nullable',
             'added_by'=>'nullable',
             'post_cat_id'=>'required',
             'status'=>'required|in:active,inactive'
         ]);
 
-        $data=$request->all();
+        $data=$request->except(['photo','_token','_method']);
+
+        if ($request->hasFile('photo')) {
+            $data['photo'] = $request->file('photo')->store('post', 'public');
+        }
+
         $tags=$request->input('tags');
         // return $tags;
         if($tags){

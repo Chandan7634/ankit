@@ -40,7 +40,11 @@ class AdminController extends Controller
     public function profileUpdate(Request $request, $id)
     {
         $user = User::findOrFail($id);
-        $user->fill($request->except(['_token', '_method', 'password']))->save();
+        $data = $request->except(['_token', '_method', 'password', 'photo']);
+        if ($request->hasFile('photo')) {
+            $data['photo'] = $request->file('photo')->store('user', 'public');
+        }
+        $user->fill($data)->save();
         return back()->with('success', 'Profile updated successfully.');
     }
 
@@ -54,14 +58,23 @@ class AdminController extends Controller
         $request->validate([
             'short_des'   => 'required|string',
             'description' => 'required|string',
-            'photo'       => 'required',
-            'logo'        => 'required',
+            'photo'       => 'nullable|image|max:2048',
+            'logo'        => 'nullable|image|max:2048',
             'address'     => 'required|string',
             'email'       => 'required|email',
             'phone'       => 'required|string',
         ]);
 
-        Settings::first()->fill($request->except(['_token', '_method']))->save();
+        $data = $request->except(['_token', '_method', 'photo', 'logo']);
+
+        if ($request->hasFile('photo')) {
+            $data['photo'] = $request->file('photo')->store('settings', 'public');
+        }
+        if ($request->hasFile('logo')) {
+            $data['logo'] = $request->file('logo')->store('settings', 'public');
+        }
+
+        Settings::first()->fill($data)->save();
 
         return redirect()->route('admin')->with('success', 'Settings updated successfully.');
     }
