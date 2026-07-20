@@ -73,7 +73,7 @@ Route::get('blog-tag/{slug}','FrontendController@blogByTag')->name('blog.tag');
 Route::post('/subscribe','FrontendController@subscribe')->name('subscribe');
 
 // Product Review
-Route::resource('/review','ProductReviewController');
+Route::resource('/review','ProductReviewController')->except(['store']);
 Route::post('product/{slug}/review','ProductReviewController@store')->name('review.store');
 
 // Post Comment 

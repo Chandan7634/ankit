@@ -42,8 +42,8 @@ jobs:
 
             composer install --no-dev --optimize-autoloader
 
-            if [ ! -f public/storage ]; then
-              ln -s ../storage/app/public public/storage
+            if [ ! -L public/storage ]; then
+              ln -sfn ../storage/app/public public/storage
             fi
 
             php artisan migrate --force
