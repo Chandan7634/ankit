@@ -1,6 +1,9 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
+    RewriteRule ^\.env - [F,L]
+    RewriteRule ^(app|bootstrap|config|database|resources|routes|tests|vendor)/ - [F,L]
+
     RewriteCond %{REQUEST_URI} !^/public/
-    RewriteRule ^(.*)$ ../public/$1 [L]
+    RewriteRule ^(.*)$ public/$1 [L]
 </IfModule>
