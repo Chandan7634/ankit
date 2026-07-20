@@ -38,7 +38,13 @@ jobs:
               git clone -b ${{ github.ref_name }} https://github.com/Chandan7634/ankit.git .
             fi
 
+            mkdir -p storage/framework/sessions storage/framework/views storage/framework/cache/data storage/framework/testing storage/logs
+
             composer install --no-dev --optimize-autoloader
+
+            if [ ! -f public/storage ]; then
+              ln -s ../storage/app/public public/storage
+            fi
 
             php artisan migrate --force
             php artisan optimize:clear
