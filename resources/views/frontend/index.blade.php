@@ -81,7 +81,7 @@
                                 $after_discount = $product->price - ($product->price * $product->discount) / 100;
                                 $avg_rating = (float) $product->getReview->avg('rate');
                             @endphp
-                            <div class="col-lg-3 col-md-4 col-12 col-sm-6">
+                            <div class="col-lg-3 col-md-4 col-4">
                                 <div class="product-cart-wrap mb-30">
                                     <div class="product-img-action-wrap">
                                         <div class="product-img product-img-zoom">

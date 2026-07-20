@@ -176,6 +176,70 @@
         .product-cart-wrap .product-content-wrap .product-price {
             margin-top: auto;
         }
+
+        /* ── Compact cards so three fit per row on phones ─────────────── */
+        @media (max-width: 767.98px) {
+
+            .product-grid-3,
+            .product-grid-4 {
+                --bs-gutter-x: 0.6rem;
+            }
+
+            .product-cart-wrap {
+                margin-bottom: 16px !important;
+            }
+
+            .product-cart-wrap .product-content-wrap {
+                padding: 8px 8px 12px;
+            }
+
+            /* the category line costs a whole row of height at this width */
+            .product-cart-wrap .product-category {
+                display: none;
+            }
+
+            .product-cart-wrap .product-content-wrap h2 {
+                font-size: 12px;
+                line-height: 1.3;
+                min-height: 2.6em;
+                margin-bottom: 4px;
+            }
+
+            .product-cart-wrap .product-price span {
+                font-size: 13px;
+            }
+
+            .product-cart-wrap .product-price span.old-price {
+                font-size: 11px;
+                margin-left: 4px;
+            }
+
+            /* these only appear on hover, which touch screens can't do */
+            .product-img-action-wrap .product-action-1:not(.show) {
+                display: none;
+            }
+
+            .product-cart-wrap .product-action-1.show {
+                bottom: 10px;
+                right: 8px;
+            }
+
+            .product-cart-wrap .product-action-1 a.action-btn {
+                width: 30px;
+                height: 30px;
+                line-height: 32px;
+                margin-right: 0;
+            }
+
+            .product-cart-wrap .product-action-1 a.action-btn i {
+                font-size: 12px;
+            }
+
+            .product-badges span {
+                font-size: 9px;
+                padding: 1px 6px;
+            }
+        }
     </style>
     @yield('style')
 </head>

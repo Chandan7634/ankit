@@ -206,7 +206,7 @@
                             <div class="row product-grid-3">
                                 @if (count($products))
                                     @foreach ($products as $key => $product)
-                                        <div class="col-lg-4 col-md-4 col-12 col-sm-6">
+                                        <div class="col-lg-4 col-md-4 col-4">
                                             <div class="product-cart-wrap mb-30">
                                                 <div class="product-img-action-wrap">
                                                     <div class="product-img product-img-zoom">
