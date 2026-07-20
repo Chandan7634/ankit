@@ -177,40 +177,40 @@
             margin-top: auto;
         }
 
-        /* ── Compact cards so three fit per row on phones ─────────────── */
+        /* ── Compact cards so two fit per row on phones ───────────────── */
         @media (max-width: 767.98px) {
 
             .product-grid-3,
             .product-grid-4 {
-                --bs-gutter-x: 0.6rem;
+                --bs-gutter-x: 0.75rem;
             }
 
             .product-cart-wrap {
-                margin-bottom: 16px !important;
+                margin-bottom: 18px !important;
             }
 
             .product-cart-wrap .product-content-wrap {
-                padding: 8px 8px 12px;
+                padding: 10px 10px 14px;
             }
 
-            /* the category line costs a whole row of height at this width */
             .product-cart-wrap .product-category {
-                display: none;
+                font-size: 11px;
+                margin-bottom: 2px;
             }
 
             .product-cart-wrap .product-content-wrap h2 {
-                font-size: 12px;
-                line-height: 1.3;
-                min-height: 2.6em;
-                margin-bottom: 4px;
+                font-size: 13px;
+                line-height: 1.35;
+                min-height: 2.7em;
+                margin-bottom: 5px;
             }
 
             .product-cart-wrap .product-price span {
-                font-size: 13px;
+                font-size: 15px;
             }
 
             .product-cart-wrap .product-price span.old-price {
-                font-size: 11px;
+                font-size: 12px;
                 margin-left: 4px;
             }
 
@@ -220,24 +220,24 @@
             }
 
             .product-cart-wrap .product-action-1.show {
-                bottom: 10px;
-                right: 8px;
+                bottom: 12px;
+                right: 10px;
             }
 
             .product-cart-wrap .product-action-1 a.action-btn {
-                width: 30px;
-                height: 30px;
-                line-height: 32px;
+                width: 34px;
+                height: 34px;
+                line-height: 36px;
                 margin-right: 0;
             }
 
             .product-cart-wrap .product-action-1 a.action-btn i {
-                font-size: 12px;
+                font-size: 13px;
             }
 
             .product-badges span {
-                font-size: 9px;
-                padding: 1px 6px;
+                font-size: 10px;
+                padding: 2px 7px;
             }
         }
     </style>

@@ -74,7 +74,7 @@
                             <div class="row product-grid-3">
                                 @if (count($products) > 0)
                                     @foreach ($products as $key => $product)
-                                        <div class="col-lg-4 col-md-4 col-4">
+                                        <div class="col-lg-4 col-md-4 col-6">
                                             <div class="product-cart-wrap mb-30">
                                                 <div class="product-img-action-wrap">
                                                     <div class="product-img product-img-zoom">
