@@ -4,12 +4,22 @@ on:
   push:
     branches:
       - main
+      - stage
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Set deploy path
+        id: vars
+        run: |
+          if [ "${{ github.ref_name }}" = "main" ]; then
+            echo "path=/home/u700592316/domains/fulvari.in/public_html/fulvari" >> "$GITHUB_OUTPUT"
+          else
+            echo "path=/home/u700592316/domains/fulvari.in/public_html/stage" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Deploy on Hostinger
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -18,9 +28,9 @@ jobs:
           password: ${{ secrets.HOSTINGER_PASSWORD }}
           port: 65002
           script: |
-            cd /home/u700592316/domains/fulvari.in/public_html/fulvari
+            cd ${{ steps.vars.outputs.path }}
 
-            git reset --hard origin/main
+            git reset --hard origin/${{ github.ref_name }}
 
             composer install --no-dev --optimize-autoloader
 
