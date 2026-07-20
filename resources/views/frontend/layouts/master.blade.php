@@ -177,6 +177,27 @@
             margin-top: auto;
         }
 
+        /* ── Badge variants the theme never styled ───────────────────────
+           Badge text is white, so without a background these rendered as
+           white-on-image and were effectively invisible. */
+        .product-cart-wrap .product-badges span.price-dec {
+            background-color: #e6483d;
+        }
+
+        .product-cart-wrap .product-badges span.out-of-stock {
+            background-color: #7d7d7d;
+        }
+
+        /* discount label beside the price on the product detail page */
+        .save-price {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            background-color: #fdecea;
+            color: #e6483d;
+            font-weight: 600;
+        }
+
         /* ── Compact cards so two fit per row on phones ───────────────── */
         @media (max-width: 767.98px) {
 
@@ -185,12 +206,14 @@
                 --bs-gutter-x: 0.75rem;
             }
 
+            /* 25px reads as oversized on a card this small */
             .product-cart-wrap {
+                border-radius: 10px;
                 margin-bottom: 18px !important;
             }
 
             .product-cart-wrap .product-content-wrap {
-                padding: 10px 10px 14px;
+                padding: 10px 10px 22px;
             }
 
             .product-cart-wrap .product-category {
