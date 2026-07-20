@@ -177,6 +177,15 @@
             margin-top: auto;
         }
 
+        /* match the card corners to the product image inside it (10px) */
+        .product-cart-wrap {
+            border-radius: 10px;
+        }
+
+        .product-cart-wrap .product-img-action-wrap .product-img {
+            border-radius: 10px;
+        }
+
         /* ── Badge variants the theme never styled ───────────────────────
            Badge text is white, so without a background these rendered as
            white-on-image and were effectively invisible. */
@@ -206,9 +215,7 @@
                 --bs-gutter-x: 0.75rem;
             }
 
-            /* 25px reads as oversized on a card this small */
             .product-cart-wrap {
-                border-radius: 10px;
                 margin-bottom: 18px !important;
             }
 
