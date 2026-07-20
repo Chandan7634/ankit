@@ -237,7 +237,7 @@ class FrontendController extends Controller
         $postCategory = PostCategory::getBlogByCategory($slug);
         $recent_posts = Post::active()->orderByDesc('id')->limit(3)->get();
         return view('frontend.pages.blog', [
-            'posts'        => $postCategory->post,
+            'posts'        => $postCategory->posts,
             'recent_posts' => $recent_posts,
         ]);
     }
