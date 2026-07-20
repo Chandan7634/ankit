@@ -17,6 +17,26 @@
 
 @section('styles')
     <style>
+        /* Touch screens get a tap-to-open lightbox instead of hover zoom,
+           so make the trigger look and feel tappable. */
+        @media (hover: none) {
+            .detail-gallery .product-image-slider img {
+                cursor: zoom-in;
+            }
+
+            .detail-gallery .zoom-icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, .9);
+                box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
+                color: #253D4E;
+            }
+        }
+
         /* From Uiverse.io by andrew-demchenk0 */
         .rating {
             position: absolute;

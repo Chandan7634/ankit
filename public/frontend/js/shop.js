@@ -42,27 +42,66 @@
             }
         );
 
-        $(".product-image-slider").on(
-            "beforeChange",
-            function (event, slick, currentSlide, nextSlide) {
-                var img = $(slick.$slides[nextSlide]).find("img");
-                $(".zoomWindowContainer,.zoomContainer").remove();
-                $(img).elevateZoom({
+        // elevateZoom follows the mouse, so it never fires on touch screens.
+        // Those get a tap-to-open lightbox instead.
+        var noHover = window.matchMedia("(hover: none)").matches;
+
+        if (!noHover) {
+            $(".product-image-slider").on(
+                "beforeChange",
+                function (event, slick, currentSlide, nextSlide) {
+                    var img = $(slick.$slides[nextSlide]).find("img");
+                    $(".zoomWindowContainer,.zoomContainer").remove();
+                    $(img).elevateZoom({
+                        zoomType: "inner",
+                        cursor: "crosshair",
+                        zoomWindowFadeIn: 500,
+                        zoomWindowFadeOut: 750,
+                    });
+                }
+            );
+            //Elevate Zoom
+            if ($(".product-image-slider").length) {
+                $(".product-image-slider .slick-active img").elevateZoom({
                     zoomType: "inner",
                     cursor: "crosshair",
                     zoomWindowFadeIn: 500,
                     zoomWindowFadeOut: 750,
                 });
             }
-        );
-        //Elevate Zoom
-        if ($(".product-image-slider").length) {
-            $(".product-image-slider .slick-active img").elevateZoom({
-                zoomType: "inner",
-                cursor: "crosshair",
-                zoomWindowFadeIn: 500,
-                zoomWindowFadeOut: 750,
-            });
+        } else if ($(".product-image-slider").length) {
+            var openGallery = function (event) {
+                event.preventDefault();
+
+                // slick clones slides for looping; only collect the originals
+                var items = [];
+                $(".product-image-slider .slick-slide:not(.slick-cloned) img").each(
+                    function () {
+                        items.push({ src: $(this).attr("src") });
+                    }
+                );
+                if (!items.length) {
+                    return;
+                }
+
+                var index = $(".product-image-slider").slick("slickCurrentSlide") || 0;
+                $.magnificPopup.open(
+                    {
+                        items: items,
+                        type: "image",
+                        gallery: { enabled: items.length > 1 },
+                        mainClass: "mfp-zoom-in",
+                        image: { verticalFit: true },
+                    },
+                    index
+                );
+            };
+
+            $(".detail-gallery").on(
+                "click",
+                ".product-image-slider img, .zoom-icon",
+                openGallery
+            );
         }
         //Filter color/Size
         $(".list-filter").each(function () {
