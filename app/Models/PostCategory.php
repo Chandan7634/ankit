@@ -12,7 +12,7 @@ class PostCategory extends Model
         return $this->hasMany(Post::class,'post_cat_id','id')->where('status','active');
     }
 
-    public static function getBlogByCategory($slug){
+    public static function findBySlugWithPosts($slug){
         return PostCategory::with('posts')->where('slug',$slug)->first();
     }
 }

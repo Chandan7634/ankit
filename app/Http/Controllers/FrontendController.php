@@ -234,7 +234,9 @@ class FrontendController extends Controller
 
     public function blogByCategory($slug)
     {
-        $postCategory = PostCategory::getBlogByCategory($slug);
+        $postCategory = PostCategory::findBySlugWithPosts($slug);
+        abort_if($postCategory === null, 404);
+
         $recent_posts = Post::active()->orderByDesc('id')->limit(3)->get();
         return view('frontend.pages.blog', [
             'posts'        => $postCategory->posts,

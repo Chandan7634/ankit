@@ -282,7 +282,7 @@
             </div>
         </div>
     </div>
-    <nav class="mobile-cat-strip d-block d-lg-none" aria-label="Shop by category">
+    <nav class="mobile-cat-strip d-flex d-lg-none" aria-label="Shop by category">
         @foreach (App\Helpers\Helper::getAllCategory() as $cat)
             @php
                 $catImg = $cat->icon ?: (explode(',', (string) $cat->photo)[0] ?? null);

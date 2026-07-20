@@ -23,11 +23,19 @@
             margin: 0 !important;
         }
 
+        /* On phones a fixed height forces `cover` to crop the sides off wide
+           banners, so give the box the banner ratio and fit the whole image. */
         @media (max-width: 768px) {
 
             .home-slider .single-hero-slider,
             .home-slider .single-slider-img img {
-                height: 300px !important;
+                height: auto !important;
+            }
+
+            .home-slider .single-slider-img img {
+                aspect-ratio: 2 / 1;
+                object-fit: contain;
+                background: #fff;
             }
         }
     </style>
