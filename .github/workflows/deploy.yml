@@ -30,7 +30,13 @@ jobs:
           script: |
             cd ${{ steps.vars.outputs.path }}
 
-            git reset --hard origin/${{ github.ref_name }}
+            if [ -d .git ]; then
+              git fetch origin
+              git reset --hard origin/${{ github.ref_name }}
+            else
+              find . -mindepth 1 -delete
+              git clone -b ${{ github.ref_name }} https://github.com/Chandan7634/ankit.git .
+            fi
 
             composer install --no-dev --optimize-autoloader
 
