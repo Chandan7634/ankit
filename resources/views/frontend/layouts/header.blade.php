@@ -123,8 +123,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endauth
+                                @endauth
+                            </div>
                             <div class="header-action-icon-2">
                                 <a class="mini-cart-icon" href="{{ route('cart') }}">
                                     <img alt="Fulvari" src="{{ asset('frontend/images/icon-cart.svg') }}">
@@ -282,6 +282,24 @@
             </div>
         </div>
     </div>
+    <nav class="mobile-cat-strip d-block d-lg-none" aria-label="Shop by category">
+        @foreach (App\Helpers\Helper::getAllCategory() as $cat)
+            @php
+                $catImg = $cat->icon ?: (explode(',', (string) $cat->photo)[0] ?? null);
+            @endphp
+            <a href="{{ route('product-cat', $cat->slug) }}"
+                class="mobile-cat-strip-item {{ request()->is('product-cat/' . $cat->slug) ? 'active' : '' }}">
+                <span class="cat-icon-circle">
+                    @if ($catImg)
+                        <img src="{{ Storage::url($catImg) }}" alt="{{ $cat->title }}" loading="lazy">
+                    @else
+                        <i class="fi-rs-plant"></i>
+                    @endif
+                </span>
+                <span class="cat-icon-name">{{ $cat->title }}</span>
+            </a>
+        @endforeach
+    </nav>
 </header>
 <div class="mobile-header-active mobile-header-wrapper-style">
     <div class="mobile-header-wrapper-inner">

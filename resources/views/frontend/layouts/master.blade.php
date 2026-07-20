@@ -98,6 +98,49 @@
             color: #253D4E;
         }
 
+        /* ── Mobile category strip (horizontal scroll under header) ──── */
+        .mobile-cat-strip {
+            display: flex;
+            gap: 18px;
+            padding: 10px 15px;
+            overflow-x: auto;
+            background: #fff;
+            border-top: 1px solid #ececec;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .mobile-cat-strip::-webkit-scrollbar {
+            display: none;
+        }
+
+        .mobile-cat-strip-item {
+            flex: 0 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            width: 68px;
+            text-align: center;
+        }
+
+        .mobile-cat-strip-item .cat-icon-circle {
+            width: 46px;
+            height: 46px;
+        }
+
+        .mobile-cat-strip-item .cat-icon-name {
+            font-size: 11px;
+        }
+
+        .mobile-cat-strip-item.active .cat-icon-circle {
+            border-color: #3BB77E;
+        }
+
+        .mobile-cat-strip-item.active .cat-icon-name {
+            color: #3BB77E;
+        }
+
         /* ── Uniform product cards ───────────────────────────────────── */
         .product-cart-wrap {
             display: flex;
