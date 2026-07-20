@@ -8,9 +8,35 @@ class Product extends Model
 {
     protected $fillable = [
         'title', 'slug', 'summary', 'description', 'cat_id', 'child_cat_id',
-        'price', 'brand_id', 'discount', 'status', 'photo', 'size',
+        'price', 'brand_id', 'discount', 'status', 'photo', 'size', 'size_price',
         'stock', 'is_featured', 'condition',
     ];
+
+    // ── Accessors ────────────────────────────────────────────────────────────
+
+    /**
+     * Size => base price map. Falls back to the product's base price for
+     * legacy rows that only have the comma-separated `size` column.
+     *
+     * @return array<string, float>
+     */
+    public function getSizePricesAttribute(): array
+    {
+        $map = json_decode($this->size_price ?? '', true);
+        if (is_array($map) && $map !== []) {
+            return array_map('floatval', $map);
+        }
+
+        $sizes = array_filter(array_map('trim', explode(',', (string) $this->size)));
+        return array_fill_keys($sizes, (float) $this->price);
+    }
+
+    /** Discounted price for a given size (or the base price when size is unknown). */
+    public function priceForSize(?string $size): float
+    {
+        $base = $this->size_prices[$size] ?? (float) $this->price;
+        return round($base - ($base * (float) $this->discount) / 100, 2);
+    }
 
     // ── Scopes ──────────────────────────────────────────────────────────────
 

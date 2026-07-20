@@ -19,9 +19,12 @@ class Helper
         return Message::whereNull('read_at')->orderByDesc('created_at')->get();
     }
 
+    /** Memoized per request — the header/menu calls this several times per page. */
+    private static $categoryMenu = null;
+
     public static function getAllCategory()
     {
-        return (new Category)->getAllParentWithChild();
+        return self::$categoryMenu ??= Category::getAllParentWithChild();
     }
 
     public static function getHeaderCategory()

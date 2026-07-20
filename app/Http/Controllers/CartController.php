@@ -13,11 +13,14 @@ class CartController extends Controller
     {
         $product = Product::where('slug', $slug)->firstOrFail();
 
-        $unitPrice = $product->price - ($product->price * $product->discount / 100);
+        // quick-add uses the first available size (or none for legacy products)
+        $size      = array_key_first($product->size_prices);
+        $unitPrice = $product->priceForSize($size);
 
         $cart = Cart::where('user_id', auth()->id())
             ->whereNull('order_id')
             ->where('product_id', $product->id)
+            ->where('size', $size)
             ->first();
 
         if ($cart) {
@@ -36,6 +39,7 @@ class CartController extends Controller
                 'product_id' => $product->id,
                 'price'      => $unitPrice,
                 'quantity'   => 1,
+                'size'       => $size,
                 'amount'     => $unitPrice,
             ]);
             Wishlist::where('user_id', auth()->id())
@@ -51,6 +55,7 @@ class CartController extends Controller
         $request->validate([
             'slug'  => 'required|string',
             'quant' => 'required|array',
+            'size'  => 'nullable|string|max:100',
         ]);
 
         $product  = Product::where('slug', $request->slug)->firstOrFail();
@@ -63,11 +68,17 @@ class CartController extends Controller
             return back()->with('error', 'Out of stock — only ' . $product->stock . ' left.');
         }
 
-        $unitPrice = $product->price - ($product->price * $product->discount / 100);
+        // only accept a size the product actually offers
+        $size = $request->size;
+        if ($size !== null && ! array_key_exists($size, $product->size_prices)) {
+            $size = array_key_first($product->size_prices);
+        }
+        $unitPrice = $product->priceForSize($size);
 
         $cart = Cart::where('user_id', auth()->id())
             ->whereNull('order_id')
             ->where('product_id', $product->id)
+            ->where('size', $size)
             ->first();
 
         if ($cart) {
@@ -84,6 +95,7 @@ class CartController extends Controller
                 'product_id' => $product->id,
                 'price'      => $unitPrice,
                 'quantity'   => $quantity,
+                'size'       => $size,
                 'amount'     => $unitPrice * $quantity,
             ]);
         }
@@ -93,7 +105,7 @@ class CartController extends Controller
 
     public function cartDelete($id)
     {
-        $cart = Cart::findOrFail($id);
+        $cart = Cart::where('user_id', auth()->id())->whereNull('order_id')->findOrFail($id);
         $cart->delete();
         return back()->with('success', 'Item removed from cart.');
     }
@@ -107,7 +119,9 @@ class CartController extends Controller
         foreach ($request->quant as $k => $quant) {
             $quant = (int) $quant;
             $id    = $request->qty_id[$k] ?? null;
-            $cart  = $id ? Cart::find($id) : null;
+            $cart  = $id
+                ? Cart::where('user_id', auth()->id())->whereNull('order_id')->find($id)
+                : null;
 
             if (! $cart || $quant < 1) {
                 continue;
@@ -116,8 +130,9 @@ class CartController extends Controller
                 return back()->with('error', 'Insufficient stock for "' . $cart->product->title . '".');
             }
 
-            $unitPrice      = $cart->product->price - ($cart->product->price * $cart->product->discount / 100);
+            $unitPrice      = $cart->product->priceForSize($cart->size);
             $cart->quantity = $quant;
+            $cart->price    = $unitPrice;
             $cart->amount   = $unitPrice * $quant;
             $cart->save();
         }

@@ -51,12 +51,27 @@
               @endforeach
             </div>
           @endif
-          <input id="photo" type="file" name="photo[]" multiple class="form-control">
+          <input id="photo" type="file" name="photo[]" multiple accept="image/*" class="form-control">
+          <small class="text-muted">Any size is fine — it will be auto-cropped to 600&times;600.</small>
           @error('photo')
           <span class="text-danger">{{$message}}</span>
           @enderror
         </div>
-        
+
+        <div class="form-group">
+          <label for="icon" class="col-form-label">Menu Icon</label>
+          @if ($category->icon)
+            <div class="mb-2">
+              <img src="{{ Storage::url($category->icon) }}" style="width:60px;height:60px;border-radius:50%;object-fit:cover;" alt="current icon">
+            </div>
+          @endif
+          <input id="icon" type="file" name="icon" accept="image/*" class="form-control">
+          <small class="text-muted">Shown as a rounded circle in the shop menu — auto-cropped to 300&times;300.</small>
+          @error('icon')
+          <span class="text-danger">{{$message}}</span>
+          @enderror
+        </div>
+
         <div class="form-group">
           <label for="status" class="col-form-label">Status <span class="text-danger">*</span></label>
           <select name="status" class="form-control">

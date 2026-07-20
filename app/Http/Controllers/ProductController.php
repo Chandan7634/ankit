@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Brand;
+use App\Support\ImageUploader;
 use Illuminate\Support\Str;
 
 class ProductController extends Controller
@@ -30,8 +31,11 @@ class ProductController extends Controller
             'summary'     => 'required|string',
             'description' => 'nullable|string',
             'photo'       => 'required|array|min:1',
-            'photo.*'     => 'image|max:2048',
+            'photo.*'     => 'image|max:4096',
             'size'        => 'nullable|array',
+            'size.*'      => 'nullable|string|max:100',
+            'size_price'  => 'nullable|array',
+            'size_price.*' => 'nullable|numeric|min:0',
             'stock'       => 'required|numeric|min:0',
             'cat_id'      => 'required|exists:categories,id',
             'child_cat_id' => 'nullable|exists:categories,id',
@@ -43,17 +47,15 @@ class ProductController extends Controller
             'discount'    => 'nullable|numeric|min:0|max:100',
         ]);
 
-        $photos = [];
-        foreach ($request->file('photo') as $image) {
-            $photos[] = $image->store('product', 'public');
-        }
+        $photos    = ImageUploader::storeMany($request->file('photo'), 'product', ...ImageUploader::PRODUCT);
+        $sizePrice = $this->buildSizePriceMap($request);
+        $slug      = $this->uniqueSlug($request->title, Product::class);
 
-        $slug = $this->uniqueSlug($request->title, Product::class);
-
-        Product::create(array_merge($request->except(['photo', 'size', '_token']), [
+        Product::create(array_merge($request->except(['photo', 'size', 'size_price', '_token']), [
             'slug'        => $slug,
             'photo'       => implode(',', $photos),
-            'size'        => $request->size ? implode(',', $request->size) : '',
+            'size'        => implode(',', array_keys($sizePrice)),
+            'size_price'  => $sizePrice ? json_encode($sizePrice) : null,
             'is_featured' => $request->boolean('is_featured'),
         ]));
 
@@ -79,8 +81,11 @@ class ProductController extends Controller
             'summary'      => 'required|string',
             'description'  => 'nullable|string',
             'photo'        => 'sometimes|array',
-            'photo.*'      => 'image|max:2048',
+            'photo.*'      => 'image|max:4096',
             'size'         => 'nullable|array',
+            'size.*'       => 'nullable|string|max:100',
+            'size_price'   => 'nullable|array',
+            'size_price.*' => 'nullable|numeric|min:0',
             'stock'        => 'required|numeric|min:0',
             'cat_id'       => 'required|exists:categories,id',
             'child_cat_id' => 'nullable|exists:categories,id',
@@ -92,16 +97,17 @@ class ProductController extends Controller
             'discount'     => 'nullable|numeric|min:0|max:100',
         ]);
 
-        $data = $request->except(['photo', 'size', '_token', '_method']);
+        $sizePrice = $this->buildSizePriceMap($request);
+
+        $data = $request->except(['photo', 'size', 'size_price', '_token', '_method']);
         $data['is_featured'] = $request->boolean('is_featured');
-        $data['size']        = $request->size ? implode(',', $request->size) : '';
+        $data['size']        = implode(',', array_keys($sizePrice));
+        $data['size_price']  = $sizePrice ? json_encode($sizePrice) : null;
 
         if ($request->hasFile('photo')) {
-            $photos = [];
-            foreach ($request->file('photo') as $image) {
-                $photos[] = $image->store('product', 'public');
-            }
-            $data['photo'] = implode(',', $photos);
+            $data['photo'] = implode(',', ImageUploader::storeMany(
+                $request->file('photo'), 'product', ...ImageUploader::PRODUCT
+            ));
         }
 
         $product->fill($data)->save();
@@ -113,6 +119,24 @@ class ProductController extends Controller
     {
         Product::findOrFail($id)->delete();
         return redirect()->route('product.index')->with('success', 'Product deleted successfully.');
+    }
+
+    /**
+     * Pair size[] with size_price[] into ['6" Pot' => 299.0, ...].
+     * A size row without a price falls back to the base product price.
+     */
+    private function buildSizePriceMap(Request $request): array
+    {
+        $map = [];
+        foreach ((array) $request->input('size', []) as $i => $size) {
+            $size = trim((string) $size);
+            if ($size === '') {
+                continue;
+            }
+            $price = $request->input("size_price.$i");
+            $map[$size] = is_numeric($price) ? (float) $price : (float) $request->price;
+        }
+        return $map;
     }
 
     private function uniqueSlug(string $title, string $model): string

@@ -25,10 +25,8 @@ class FrontendController extends Controller
     public function home()
     {
         return view('frontend.index', [
-            'featured'       => Product::active()->featured()->orderByDesc('price')->limit(2)->get(),
-            'posts'          => Post::active()->orderByDesc('id')->limit(3)->get(),
             'banners'        => Banner::active()->orderByDesc('id')->limit(3)->get(),
-            'product_lists'  => Product::active()->orderByDesc('id')->limit(8)->get(),
+            'product_lists'  => Product::active()->with(['getReview', 'cat_info'])->orderByDesc('id')->limit(8)->get(),
             'category_lists' => Category::active()->parent()->orderBy('title')->get(),
         ]);
     }

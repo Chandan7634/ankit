@@ -47,7 +47,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="price" class="col-form-label">Price (NRS) <span class="text-danger">*</span></label>
+                            <label for="price" class="col-form-label">Base Price (&#8377;) <span class="text-danger">*</span></label>
                             <input id="price" type="number" name="price" placeholder="Enter price"
                                 value="{{ $product->price }}" class="form-control">
                             @error('price')
@@ -65,18 +65,51 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group">
-                            <label for="size" class="col-form-label">Pot Size</label>
-                            @php $selectedSizes = $product->size ? explode(',', $product->size) : []; @endphp
-                            <select name="size[]" class="form-control selectpicker" multiple data-live-search="true">
-                                <option value="">--Select any size--</option>
-                                @foreach (['S' => 'Small (S)', 'M' => 'Medium (M)', 'L' => 'Large (L)', 'XL' => 'Extra Large (XL)', '2XL' => 'Double Extra Large (2XL)'] as $val => $label)
-                                    <option value="{{ $val }}" {{ in_array($val, $selectedSizes) ? 'selected' : '' }}>
-                                        {{ $label }}
-                                    </option>
-                                @endforeach
-                            </select>
+                            <label class="col-form-label">Pot Sizes &amp; Prices</label>
+                            <small class="text-muted d-block mb-2">Each size can have its own price — the shop updates
+                                the price when the customer picks a size. Leave a price blank to use the base
+                                price.</small>
+                            <div id="size-price-rows">
+                                @forelse ($product->size_prices as $sizeName => $sizeValue)
+                                    <div class="row g-2 mb-2 size-price-row">
+                                        <div class="col-5">
+                                            <input type="text" name="size[]" class="form-control"
+                                                placeholder='Size (e.g. 6" Pot)' value="{{ $sizeName }}">
+                                        </div>
+                                        <div class="col-5">
+                                            <input type="number" name="size_price[]" step="0.01" min="0"
+                                                class="form-control" placeholder="Price (&#8377;)"
+                                                value="{{ $sizeValue }}">
+                                        </div>
+                                        <div class="col-2">
+                                            <button type="button" class="btn btn-outline-danger remove-size-row">&times;</button>
+                                        </div>
+                                    </div>
+                                @empty
+                                    <div class="row g-2 mb-2 size-price-row">
+                                        <div class="col-5">
+                                            <input type="text" name="size[]" class="form-control"
+                                                placeholder='Size (e.g. 6" Pot)'>
+                                        </div>
+                                        <div class="col-5">
+                                            <input type="number" name="size_price[]" step="0.01" min="0"
+                                                class="form-control" placeholder="Price (&#8377;)">
+                                        </div>
+                                        <div class="col-2">
+                                            <button type="button" class="btn btn-outline-danger remove-size-row">&times;</button>
+                                        </div>
+                                    </div>
+                                @endforelse
+                            </div>
+                            <button type="button" id="add-size-row" class="btn btn-sm btn-secondary">+ Add Size</button>
+                            @error('size.*')
+                                <span class="text-danger d-block">{{ $message }}</span>
+                            @enderror
+                            @error('size_price.*')
+                                <span class="text-danger d-block">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -122,7 +155,9 @@
                         </div>
                         <div class="form-group mt-2">
                             <label for="photo" class="col-form-label">Change Photo</label>
-                            <input id="photo" type="file" multiple name="photo[]" class="form-control">
+                            <input id="photo" type="file" multiple name="photo[]" accept="image/*" class="form-control">
+                            <small class="text-muted">Any size is fine — every photo is auto-cropped to a uniform
+                                800&times;800 square.</small>
                             @error('photo')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -199,5 +234,16 @@
         if (child_cat_id) {
             $('#cat_id').change();
         }
+
+        $('#add-size-row').click(function () {
+            $('#size-price-rows').append($('.size-price-row').first().clone().find('input').val('').end());
+        });
+        $(document).on('click', '.remove-size-row', function () {
+            if ($('.size-price-row').length > 1) {
+                $(this).closest('.size-price-row').remove();
+            } else {
+                $(this).closest('.size-price-row').find('input').val('');
+            }
+        });
     </script>
 @endpush

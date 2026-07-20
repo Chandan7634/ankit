@@ -523,6 +523,10 @@
                                                                 </a>
                                                             </h5>
                                                             <span class="product-qty">x {{ $cart['quantity'] }}</span>
+                                                            @if ($cart->size)
+                                                                <span class="font-xs text-muted d-block">Size:
+                                                                    {{ $cart->size }}</span>
+                                                            @endif
                                                         </td>
                                                         {{-- @php
                                                             $after_discount =
