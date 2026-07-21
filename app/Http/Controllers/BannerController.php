@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Banner;
+use App\Support\ImageUploader;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -23,7 +24,7 @@ class BannerController extends Controller
         $request->validate([
             'title'       => 'required|string|max:50',
             'description' => 'nullable|string',
-            'photo'       => 'required|image|max:2048',
+            'photo'       => 'required|image|max:6144',
             'status'      => 'required|in:active,inactive',
         ]);
 
@@ -35,7 +36,7 @@ class BannerController extends Controller
 
         Banner::create(array_merge($request->except(['_token', 'photo']), [
             'slug'  => $slug,
-            'photo' => $request->file('photo')->store('banner', 'public'),
+            'photo' => ImageUploader::store($request->file('photo'), 'banner', ...ImageUploader::BANNER),
         ]));
 
         return redirect()->route('banner.index')->with('success', 'Banner added successfully.');
@@ -53,14 +54,14 @@ class BannerController extends Controller
         $request->validate([
             'title'       => 'required|string|max:50',
             'description' => 'nullable|string',
-            'photo'       => 'nullable|image|max:2048',
+            'photo'       => 'nullable|image|max:6144',
             'status'      => 'required|in:active,inactive',
         ]);
 
         $data = $request->except(['_token', '_method', 'photo']);
 
         if ($request->hasFile('photo')) {
-            $data['photo'] = $request->file('photo')->store('banner', 'public');
+            $data['photo'] = ImageUploader::store($request->file('photo'), 'banner', ...ImageUploader::BANNER);
         }
 
         $banner->fill($data)->save();

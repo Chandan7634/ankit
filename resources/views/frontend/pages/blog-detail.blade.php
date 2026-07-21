@@ -137,8 +137,7 @@
                         <div class="single-widget category">
                             <h3 class="title">Blog Categories</h3>
                             <ul class="categor-list">
-                                {{-- {{count(Helper::postCategoryList())}} --}}
-                                @foreach(Helper::postCategoryList('posts') as $cat)
+                                @foreach(App\Helpers\Helper::postCategoryList('posts') as $cat)
                                 <li><a href="#">{{$cat->title}} </a></li>
                                 @endforeach
                             </ul>
@@ -173,7 +172,7 @@
                         <div class="single-widget side-tags">
                             <h3 class="title">Tags</h3>
                             <ul class="tag">
-                                @foreach(Helper::postTagList('posts') as $tag)
+                                @foreach(App\Helpers\Helper::postTagList('posts') as $tag)
                                     <li><a href="">{{$tag->title}}</a></li>
                                 @endforeach
                             </ul>

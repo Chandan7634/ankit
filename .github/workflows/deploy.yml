@@ -4,12 +4,22 @@ on:
   push:
     branches:
       - main
+      - stage
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Set deploy path
+        id: vars
+        run: |
+          if [ "${{ github.ref_name }}" = "main" ]; then
+            echo "path=/home/u700592316/domains/fulvari.in/public_html/fulvari" >> "$GITHUB_OUTPUT"
+          else
+            echo "path=/home/u700592316/domains/fulvari.in/public_html/stage" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Deploy on Hostinger
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -18,11 +28,23 @@ jobs:
           password: ${{ secrets.HOSTINGER_PASSWORD }}
           port: 65002
           script: |
-            cd /home/u700592316/domains/fulvari.in/public_html/fulvari
+            cd ${{ steps.vars.outputs.path }}
 
-            git reset --hard origin/main
+            if [ -d .git ]; then
+              git fetch origin
+              git reset --hard origin/${{ github.ref_name }}
+            else
+              find . -mindepth 1 -delete
+              git clone -b ${{ github.ref_name }} https://github.com/Chandan7634/ankit.git .
+            fi
+
+            mkdir -p storage/framework/sessions storage/framework/views storage/framework/cache/data storage/framework/testing storage/logs
 
             composer install --no-dev --optimize-autoloader
+
+            if [ ! -L public/storage ]; then
+              ln -sfn ../storage/app/public public/storage
+            fi
 
             php artisan migrate --force
             php artisan optimize:clear

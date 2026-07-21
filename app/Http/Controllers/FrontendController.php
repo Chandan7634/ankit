@@ -25,10 +25,8 @@ class FrontendController extends Controller
     public function home()
     {
         return view('frontend.index', [
-            'featured'       => Product::active()->featured()->orderByDesc('price')->limit(2)->get(),
-            'posts'          => Post::active()->orderByDesc('id')->limit(3)->get(),
             'banners'        => Banner::active()->orderByDesc('id')->limit(3)->get(),
-            'product_lists'  => Product::active()->orderByDesc('id')->limit(8)->get(),
+            'product_lists'  => Product::active()->with(['getReview', 'cat_info'])->orderByDesc('id')->limit(8)->get(),
             'category_lists' => Category::active()->parent()->orderBy('title')->get(),
         ]);
     }
@@ -236,10 +234,12 @@ class FrontendController extends Controller
 
     public function blogByCategory($slug)
     {
-        $postCategory = PostCategory::getBlogByCategory($slug);
+        $postCategory = PostCategory::findBySlugWithPosts($slug);
+        abort_if($postCategory === null, 404);
+
         $recent_posts = Post::active()->orderByDesc('id')->limit(3)->get();
         return view('frontend.pages.blog', [
-            'posts'        => $postCategory->post,
+            'posts'        => $postCategory->posts,
             'recent_posts' => $recent_posts,
         ]);
     }

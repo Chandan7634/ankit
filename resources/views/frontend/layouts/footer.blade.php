@@ -5,7 +5,7 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="widget-about font-md mb-md-5 mb-lg-0">
                         <div class="logo logo-width-1 wow fadeIn animated animated animated" style="visibility: visible;">
-                            <a href="javascript:void(0)"><img src="{{ asset('frontend/images/filvari-logo.jpeg') }}" alt="logo"></a>
+                            <a href="{{ route('home') }}"><img src="{{ asset('frontend/images/filvari-logo.jpeg') }}" alt="logo"></a>
                         </div>
                         <h5 class="mt-20 mb-10 fw-600 text-grey-4 wow fadeIn animated animated animated"
                             style="visibility: visible;">Contact</h5>
@@ -41,26 +41,31 @@
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3">
-                    <h5 class="widget-title wow fadeIn animated animated animated" style="visibility: visible;">About
-                    </h5>
+                    <h5 class="widget-title wow fadeIn animated animated animated" style="visibility: visible;">Quick
+                        Links</h5>
                     <ul class="footer-list wow fadeIn animated mb-sm-5 mb-md-0 animated animated"
                         style="visibility: visible;">
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Delivery Information</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms &amp; Conditions</a></li>
-                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="{{ route('product-grids') }}">Shop</a></li>
+                        <li><a href="{{ route('about-us') }}">About Us</a></li>
+                        <li><a href="{{ route('contact') }}">Contact Us</a></li>
+                        <li><a href="{{ route('order.track') }}">Track My Order</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-3  col-md-3">
                     <h5 class="widget-title wow fadeIn animated animated animated" style="visibility: visible;">My
                         Account</h5>
                     <ul class="footer-list wow fadeIn animated animated animated" style="visibility: visible;">
-                        <li><a href="{{ route('login') }}">Sign In</a></li>
+                        @auth
+                            @if (Auth::user()->role !== 'admin')
+                                <li><a href="{{ route('user') }}">My Account</a></li>
+                                <li><a href="{{ route('user.order.index') }}">My Orders</a></li>
+                            @endif
+                        @else
+                            <li><a href="{{ route('login.form') }}">Sign In</a></li>
+                            <li><a href="{{ route('register.form') }}">Register</a></li>
+                        @endauth
                         <li><a href="{{ route('cart') }}">View Cart</a></li>
-                        <li><a href="/wishlist">My Wishlist</a></li>
-                        <li><a href="/track-order">Track My Order</a></li>
-                        <li><a href="/order">Order</a></li>
+                        <li><a href="{{ route('wishlist') }}">My Wishlist</a></li>
                     </ul>
                 </div>
                 {{-- <div class="col-lg-4">
@@ -95,12 +100,12 @@
                 <div class="footer-bottom"></div>
             </div>
             <div class="col-lg-6">
-                <p class="float-md-left font-sm text-muted mb-0">© 2026, <strong class="text-brand">Chandan</strong> -
-                    chandan20004.techaccess@gmail.com</p>
+                <p class="float-md-left font-sm text-muted mb-0">© {{ date('Y') }},
+                    <strong class="text-brand">Fulvari</strong> — Beauty in Nature
+                </p>
             </div>
             <div class="col-lg-6">
                 <p class="text-lg-end text-start font-sm text-muted mb-0">
-                    Developed by <a href="mailto:chandan2004.techaccess@gmail.com">Chandan</a>.
                     All rights reserved
                 </p>
             </div>
@@ -144,4 +149,19 @@
 <script src="{{ asset('frontend/js/jquery.elevatezoom.js') }}"></script>
 <script src="{{ asset('frontend/js/main.js') }}"></script>
 <script src="{{ asset('frontend/js/shop.js') }}"></script>
+<script>
+    // Size selection: highlight the chosen size, update the shown price and
+    // the hidden size field that goes to the cart.
+    $(document).on('click', '.size-price-option a', function() {
+        var $link = $(this);
+        var $scope = $link.closest('.detail-info, .product-detail');
+
+        $link.closest('ul').find('li').removeClass('active');
+        $link.closest('li').addClass('active');
+
+        $scope.find('.js-current-price').text('₹' + parseFloat($link.data('price')).toFixed(2));
+        $scope.find('.js-old-price').text('₹' + parseFloat($link.data('old')).toFixed(2));
+        $scope.find('.js-selected-size').val($link.data('size'));
+    });
+</script>
 @stack('scripts')

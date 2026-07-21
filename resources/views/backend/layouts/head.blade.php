@@ -1,8 +1,10 @@
  <head>
      <meta charset="utf-8" />
-     <title>Dashboard | Larkon - Responsive Admin Dashboard Template</title>
+     <title>Fulvari | Admin Dashboard</title>
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <meta name="csrf-token" content="{{ csrf_token() }}">
+     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
+     <link rel="apple-touch-icon" href="{{ asset('favicon.png') }}">
 
      <link href="{{ asset('assets/css/vendor.min.css') }}" rel="stylesheet" type="text/css" />
      <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />

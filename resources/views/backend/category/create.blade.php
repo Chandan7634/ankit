@@ -40,20 +40,25 @@
                 </div>
 
                 <div class="form-group">
-                    <div class="form-group">
-                        <label for="photo" class="col-form-label">Photo</label>
-                        <input id="photo" type="file" name="photo[]" value="{{ old('photo') }}"
-                            class="form-control">
-                        @error('photo')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
+                    <label for="photo" class="col-form-label">Photo <span class="text-danger">*</span></label>
+                    <input id="photo" type="file" name="photo[]" accept="image/*" class="form-control">
+                    <small class="text-muted">Any size is fine — it will be auto-cropped to 600&times;600.</small>
+                    @error('photo')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                    @error('photo.*')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
-                <div id="holder" style="margin-top:15px;max-height:100px;"></div>
 
-                @error('photo')
-                    <span class="text-danger">{{ $message }}</span>
-                @enderror
+                <div class="form-group">
+                    <label for="icon" class="col-form-label">Menu Icon</label>
+                    <input id="icon" type="file" name="icon" accept="image/*" class="form-control">
+                    <small class="text-muted">Shown as a rounded circle in the shop menu — auto-cropped to 300&times;300.</small>
+                    @error('icon')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
 
                 <div class="form-group">
                     <label for="status" class="col-form-label">Status <span class="text-danger">*</span></label>

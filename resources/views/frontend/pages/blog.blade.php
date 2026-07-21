@@ -78,8 +78,7 @@
                                 @endif
                                 <form action="{{ route('blog.filter') }}" method="POST">
                                     @csrf
-                                    {{-- {{count(Helper::postCategoryList())}} --}}
-                                    @foreach (Helper::postCategoryList('posts') as $cat)
+                                    @foreach (App\Helpers\Helper::postCategoryList('posts') as $cat)
                                         <li>
                                             <a href="{{ route('blog.category', $cat->slug) }}">{{ $cat->title }} </a>
                                         </li>
@@ -126,7 +125,7 @@
                                 @endif
                                 <form action="{{ route('blog.filter') }}" method="POST">
                                     @csrf
-                                    @foreach (Helper::postTagList('posts') as $tag)
+                                    @foreach (App\Helpers\Helper::postTagList('posts') as $tag)
                                         <li>
                                         <li>
                                             <a href="{{ route('blog.tag', $tag->title) }}">{{ $tag->title }} </a>

@@ -69,7 +69,7 @@
         <tbody>
           @foreach($order->cart_info as $cart)
           <tr>
-            <td>{{ $cart->product->title ?? 'N/A' }}</td>
+            <td>{{ $cart->product->title ?? 'N/A' }}{{ $cart->size ? ' — ' . $cart->size : '' }}</td>
             <td>{{ $cart->quantity }}</td>
             <td>₹{{ number_format($cart->price, 2) }}</td>
             <td>₹{{ number_format($cart->price * $cart->quantity, 2) }}</td>

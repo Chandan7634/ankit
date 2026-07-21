@@ -26,15 +26,20 @@
                 </div>
                 <div class="col-xl-3 col-lg-4">
                     <div class="header-info header-info-right">
-                        @auth
-                            <li><i class="feather feather-power"></i> <a href="{{ route('user.logout') }}">Logout</a></li>
-                        @else
-                            <ul>
+                        <ul>
+                            @auth
+                                @if (Auth::user()->role == 'admin')
+                                    <li><i class="fi-rs-user"></i> <a href="{{ route('admin') }}">Dashboard</a></li>
+                                @else
+                                    <li><i class="fi-rs-user"></i> <a href="{{ route('user') }}">My Account</a></li>
+                                @endif
+                                <li><i class="fi-rs-sign-out"></i> <a href="{{ route('user.logout') }}">Logout</a></li>
+                            @else
                                 <li><i class="fi-rs-user"></i><a href="{{ route('login.form') }}">Login /</a>
                                     <a href="{{ route('register.form') }}">Register</a>
                                 </li>
-                            </ul>
-                        @endauth
+                            @endauth
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -44,7 +49,7 @@
         <div class="container">
             <div class="header-wrap">
                 <div class="logo logo-width-1">
-                    <a href="../"><img src="{{ asset('frontend/images/filvari-logo.jpeg') }}" alt="logo"></a>
+                    <a href="{{ route('home') }}"><img src="{{ asset('frontend/images/filvari-logo.jpeg') }}" alt="logo"></a>
                 </div>
                 <div class="header-right">
                     <div class="search-style-2">
@@ -118,8 +123,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endauth
+                                @endauth
+                            </div>
                             <div class="header-action-icon-2">
                                 <a class="mini-cart-icon" href="{{ route('cart') }}">
                                     <img alt="Fulvari" src="{{ asset('frontend/images/icon-cart.svg') }}">
@@ -182,31 +187,28 @@
         <div class="container">
             <div class="header-wrap header-space-between position-relative">
                 <div class="logo logo-width-1 d-block d-lg-none">
-                    <a href="./"><img src="{{ asset('frontend/images/filvari-logo.jpeg') }}" alt="logo"></a>
+                    <a href="{{ route('home') }}"><img src="{{ asset('frontend/images/filvari-logo.jpeg') }}" alt="logo"></a>
                 </div>
                 <div class="header-nav d-none d-lg-flex">
-                    <div class="main-menu main-menu-padding-1 main-menu-lh-2 d-none d-lg-block">
-                        <nav>
-                            <ul>
-                                <li>
-                                    <a class="{{ Request::path() == 'home' ? 'active' : '' }}" href="/">Home
-                                </li>
-                                <li>
-                                    <a class="{{ Request::path() == 'about-us' ? 'active' : '' }}"
-                                        href="javascript:void(0)">About</a>
-                                </li>
-                                <li><a class="@if (Request::path() == 'product-grids' || Request::path() == 'product-lists') active @endif"
-                                        href="{{ route('product-grids') }}">Product
-                                </li>
-                                {{ App\Helpers\Helper::getHeaderCategory() }}
-                                {{-- <li>
-                                    <a class="{{ Request::path() == 'blog' ? 'active' : '' }}"
-                                        href="{{ route('blog') }}">Blog</a>
-                                </li> --}}
-
-                            </ul>
-                        </nav>
-                    </div>
+                    <nav class="cat-icon-menu">
+                        @foreach (App\Helpers\Helper::getAllCategory() as $cat)
+                            @php
+                                $catImg = $cat->icon ?: (explode(',', (string) $cat->photo)[0] ?? null);
+                            @endphp
+                            <a href="{{ route('product-cat', $cat->slug) }}"
+                                class="cat-icon-item {{ request()->is('product-cat/' . $cat->slug) ? 'active' : '' }}">
+                                <span class="cat-icon-circle">
+                                    @if ($catImg)
+                                        <img src="{{ Storage::url($catImg) }}" alt="{{ $cat->title }}"
+                                            loading="lazy">
+                                    @else
+                                        <i class="fi-rs-plant"></i>
+                                    @endif
+                                </span>
+                                <span class="cat-icon-name">{{ $cat->title }}</span>
+                            </a>
+                        @endforeach
+                    </nav>
                 </div>
 
                 <p class="mobile-promotion">Welcome to <span class="text-brand">Fulvari</span>. Big Sale Up to 40%
@@ -224,7 +226,7 @@
                         <div class="header-action-icon-2">
                             <a class="mini-cart-icon" href="{{ route('cart') }}">
                                 <img alt="Fulvari" src="{{ asset('frontend/images/icon-cart.svg') }}">
-                                <span class="pro-count white">2</span>
+                                <span class="pro-count white">{{ App\Helpers\Helper::cartCount() }}</span>
                             </a>
                             @auth
                                 <div class="cart-dropdown-wrap cart-dropdown-hm2">
@@ -280,12 +282,30 @@
             </div>
         </div>
     </div>
+    <nav class="mobile-cat-strip d-flex d-lg-none" aria-label="Shop by category">
+        @foreach (App\Helpers\Helper::getAllCategory() as $cat)
+            @php
+                $catImg = $cat->icon ?: (explode(',', (string) $cat->photo)[0] ?? null);
+            @endphp
+            <a href="{{ route('product-cat', $cat->slug) }}"
+                class="mobile-cat-strip-item {{ request()->is('product-cat/' . $cat->slug) ? 'active' : '' }}">
+                <span class="cat-icon-circle">
+                    @if ($catImg)
+                        <img src="{{ Storage::url($catImg) }}" alt="{{ $cat->title }}" loading="lazy">
+                    @else
+                        <i class="fi-rs-plant"></i>
+                    @endif
+                </span>
+                <span class="cat-icon-name">{{ $cat->title }}</span>
+            </a>
+        @endforeach
+    </nav>
 </header>
 <div class="mobile-header-active mobile-header-wrapper-style">
     <div class="mobile-header-wrapper-inner">
         <div class="mobile-header-top">
             <div class="mobile-header-logo">
-                <a href="../"><img src="{{ asset('frontend/images/filvari-logo.jpeg') }}" alt="logo"></a>
+                <a href="{{ route('home') }}"><img src="{{ asset('frontend/images/filvari-logo.jpeg') }}" alt="logo"></a>
             </div>
             <div class="mobile-menu-close close-style-wrap close-style-position-inherit">
                 <button class="close-style search-close">
@@ -308,26 +328,41 @@
                     {{-- <button class="btnn" type="submit"><i class="ti-search"></i></button> --}}
                 </form>
             </div>
+            <div class="mobile-cat-menu mobile-header-border">
+                <h6 class="mb-15 mt-20">Shop by Category</h6>
+                @foreach (App\Helpers\Helper::getAllCategory() as $cat)
+                    @php
+                        $catImg = $cat->icon ?: (explode(',', (string) $cat->photo)[0] ?? null);
+                    @endphp
+                    <a href="{{ route('product-cat', $cat->slug) }}" class="mobile-cat-item">
+                        <span class="cat-icon-circle cat-icon-circle-sm">
+                            @if ($catImg)
+                                <img src="{{ Storage::url($catImg) }}" alt="{{ $cat->title }}" loading="lazy">
+                            @else
+                                <i class="fi-rs-plant"></i>
+                            @endif
+                        </span>
+                        <span>{{ $cat->title }}</span>
+                    </a>
+                @endforeach
+            </div>
             <div class="mobile-header-info-wrap mobile-header-border">
                 <div class="single-mobile-header-info mt-30">
-                    <a href="javascript:void(0)"> Our location </a>
+                    <a href="{{ route('order.track') }}"><i class="fa fa-truck"></i> Track Order</a>
                 </div>
-
                 @auth
                     @if (Auth::user()->role == 'admin')
-                        <li><i class="fa fa-truck"></i> <a href="{{ route('order.track') }}">Track Order</a>
-                        </li>
-
-                        <li><i class="ti-user"></i> <a href="{{ route('admin') }}" target="_blank">Dashboard</a>
-                        </li>
+                        <div class="single-mobile-header-info">
+                            <a href="{{ route('admin') }}"><i class="ti-user"></i> Dashboard</a>
+                        </div>
                     @else
-                        <li><i class="fa fa-truck"></i> <a href="{{ route('order.track') }}">Track Order</a>
-                        </li>
-
-                        <li><i class="ti-user"></i> <a href="{{ route('user') }}" target="_blank">Dashboard</a>
-                        </li>
+                        <div class="single-mobile-header-info">
+                            <a href="{{ route('user') }}"><i class="ti-user"></i> My Account</a>
+                        </div>
                     @endif
-                    <li><i class="feather feather-power"></i> <a href="{{ route('user.logout') }}">Logout</a></li>
+                    <div class="single-mobile-header-info">
+                        <a href="{{ route('user.logout') }}"><i class="feather feather-power"></i> Logout</a>
+                    </div>
                 @else
                     <div class="single-mobile-header-info">
                         <a href="{{ route('login.form') }}">Log In / </a> <a href="{{ route('register.form') }}"> Sign
@@ -336,7 +371,7 @@
                     </div>
                 @endauth
                 <div class="single-mobile-header-info">
-                    <a href="#">(+91) 7667459049 </a>
+                    <a href="tel:7667459049">(+91) 7667459049 </a>
                 </div>
             </div>
             <div class="mobile-social-icon">

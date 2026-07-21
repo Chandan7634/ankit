@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Support\ImageUploader;
 use Illuminate\Support\Str;
 
 class CategoryController extends Controller
@@ -44,21 +45,24 @@ class CategoryController extends Controller
             'title'=>'string|required',
             'summary'=>'string|nullable',
             'photo' => 'required|array',
-            'photo.*' => 'image|max:2048',
+            'photo.*' => 'image|max:4096',
+            'icon' => 'nullable|image|max:2048',
             'status'=>'required|in:active,inactive',
             'is_parent'=>'sometimes|in:1',
             'parent_id'=>'nullable|exists:categories,id',
         ]);
 
-         $data= $request->all();
-        $uploadedPaths = [];
+        $data = $request->except(['photo', 'icon', '_token']);
 
-        foreach ($request->file('photo') as $image) {
-           $path = $image->store('category', 'public');
-           $uploadedPaths[] = $path;
-       }
+        $data['photo'] = implode(',', ImageUploader::storeMany(
+            $request->file('photo'), 'category', ...ImageUploader::CATEGORY
+        ));
 
-       $data['photo'] = implode(',',$uploadedPaths);
+        if ($request->hasFile('icon')) {
+            $data['icon'] = ImageUploader::store(
+                $request->file('icon'), 'category/icons', ...ImageUploader::ICON
+            );
+        }
 
 
         $slug=Str::slug($request->title);
@@ -120,20 +124,25 @@ class CategoryController extends Controller
             'title'=>'string|required',
             'summary'=>'string|nullable',
             'photo'=>'sometimes|array',
-            'photo.*'=>'image|max:2048',
+            'photo.*'=>'image|max:4096',
+            'icon'=>'nullable|image|max:2048',
             'status'=>'required|in:active,inactive',
             'is_parent'=>'sometimes|in:1',
             'parent_id'=>'nullable|exists:categories,id',
         ]);
-        $data= $request->except(['photo', '_token', '_method']);
+        $data= $request->except(['photo', 'icon', '_token', '_method']);
         $data['is_parent']=$request->input('is_parent',0);
 
         if ($request->hasFile('photo')) {
-            $uploadedPaths = [];
-            foreach ($request->file('photo') as $image) {
-                $uploadedPaths[] = $image->store('category', 'public');
-            }
-            $data['photo'] = implode(',', $uploadedPaths);
+            $data['photo'] = implode(',', ImageUploader::storeMany(
+                $request->file('photo'), 'category', ...ImageUploader::CATEGORY
+            ));
+        }
+
+        if ($request->hasFile('icon')) {
+            $data['icon'] = ImageUploader::store(
+                $request->file('icon'), 'category/icons', ...ImageUploader::ICON
+            );
         }
 
         $status=$category->fill($data)->save();

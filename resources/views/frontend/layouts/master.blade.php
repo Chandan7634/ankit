@@ -22,6 +22,254 @@
             overflow: hidden !important;
             text-overflow: ellipsis !important;
         }
+
+        /* ── Category icon menu (header) ─────────────────────────────── */
+        .cat-icon-menu {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 28px;
+            padding: 8px 0;
+            flex-wrap: wrap;
+        }
+
+        .cat-icon-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            max-width: 90px;
+            text-align: center;
+        }
+
+        .cat-icon-circle {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f2f6f1;
+            border: 2px solid #e2e9e1;
+            transition: border-color .2s, transform .2s;
+        }
+
+        .cat-icon-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .cat-icon-item:hover .cat-icon-circle,
+        .cat-icon-item.active .cat-icon-circle {
+            border-color: #3BB77E;
+            transform: translateY(-2px);
+        }
+
+        .cat-icon-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #253D4E;
+            line-height: 1.2;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .cat-icon-item:hover .cat-icon-name,
+        .cat-icon-item.active .cat-icon-name {
+            color: #3BB77E;
+        }
+
+        .cat-icon-circle-sm {
+            width: 36px;
+            height: 36px;
+            flex: 0 0 36px;
+        }
+
+        .mobile-cat-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 0;
+            font-weight: 600;
+            color: #253D4E;
+        }
+
+        /* ── Mobile category strip (horizontal scroll under header) ──── */
+        .mobile-cat-strip {
+            display: flex;
+            gap: 18px;
+            padding: 10px 15px;
+            overflow-x: auto;
+            background: #fff;
+            border-top: 1px solid #ececec;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .mobile-cat-strip::-webkit-scrollbar {
+            display: none;
+        }
+
+        .mobile-cat-strip-item {
+            flex: 0 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            width: 68px;
+            text-align: center;
+        }
+
+        .mobile-cat-strip-item .cat-icon-circle {
+            width: 46px;
+            height: 46px;
+        }
+
+        .mobile-cat-strip-item .cat-icon-name {
+            font-size: 11px;
+        }
+
+        .mobile-cat-strip-item.active .cat-icon-circle {
+            border-color: #3BB77E;
+        }
+
+        .mobile-cat-strip-item.active .cat-icon-name {
+            color: #3BB77E;
+        }
+
+        /* ── Uniform product cards ───────────────────────────────────── */
+        .product-cart-wrap {
+            display: flex;
+            flex-direction: column;
+            height: calc(100% - 30px);
+        }
+
+        .product-cart-wrap .product-img-action-wrap {
+            flex-shrink: 0;
+        }
+
+        .product-cart-wrap .product-img img.default-img,
+        .product-cart-wrap .product-img img.hover-img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+        }
+
+        .product-cart-wrap .product-content-wrap {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .product-cart-wrap .product-content-wrap h2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: 2.6em;
+        }
+
+        .product-cart-wrap .product-content-wrap .product-price {
+            margin-top: auto;
+        }
+
+        /* match the card corners to the product image inside it (10px) */
+        .product-cart-wrap {
+            border-radius: 10px;
+        }
+
+        .product-cart-wrap .product-img-action-wrap .product-img {
+            border-radius: 10px;
+        }
+
+        /* ── Badge variants the theme never styled ───────────────────────
+           Badge text is white, so without a background these rendered as
+           white-on-image and were effectively invisible. */
+        .product-cart-wrap .product-badges span.price-dec {
+            background-color: #e6483d;
+        }
+
+        .product-cart-wrap .product-badges span.out-of-stock {
+            background-color: #7d7d7d;
+        }
+
+        /* discount label beside the price on the product detail page */
+        .save-price {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            background-color: #fdecea;
+            color: #e6483d;
+            font-weight: 600;
+        }
+
+        /* ── Compact cards so two fit per row on phones ───────────────── */
+        @media (max-width: 767.98px) {
+
+            .product-grid-3,
+            .product-grid-4 {
+                --bs-gutter-x: 0.75rem;
+            }
+
+            .product-cart-wrap {
+                margin-bottom: 18px !important;
+            }
+
+            .product-cart-wrap .product-content-wrap {
+                padding: 10px 10px 22px;
+            }
+
+            .product-cart-wrap .product-category {
+                font-size: 11px;
+                margin-bottom: 2px;
+            }
+
+            .product-cart-wrap .product-content-wrap h2 {
+                font-size: 13px;
+                line-height: 1.35;
+                min-height: 2.7em;
+                margin-bottom: 5px;
+            }
+
+            .product-cart-wrap .product-price span {
+                font-size: 15px;
+            }
+
+            .product-cart-wrap .product-price span.old-price {
+                font-size: 12px;
+                margin-left: 4px;
+            }
+
+            /* these only appear on hover, which touch screens can't do */
+            .product-img-action-wrap .product-action-1:not(.show) {
+                display: none;
+            }
+
+            .product-cart-wrap .product-action-1.show {
+                bottom: 12px;
+                right: 10px;
+            }
+
+            .product-cart-wrap .product-action-1 a.action-btn {
+                width: 34px;
+                height: 34px;
+                line-height: 36px;
+                margin-right: 0;
+            }
+
+            .product-cart-wrap .product-action-1 a.action-btn i {
+                font-size: 13px;
+            }
+
+            .product-badges span {
+                font-size: 10px;
+                padding: 2px 7px;
+            }
+        }
     </style>
     @yield('style')
 </head>

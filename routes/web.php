@@ -73,7 +73,7 @@ Route::get('blog-tag/{slug}','FrontendController@blogByTag')->name('blog.tag');
 Route::post('/subscribe','FrontendController@subscribe')->name('subscribe');
 
 // Product Review
-Route::resource('/review','ProductReviewController');
+Route::resource('/review','ProductReviewController')->except(['store']);
 Route::post('product/{slug}/review','ProductReviewController@store')->name('review.store');
 
 // Post Comment 
@@ -166,9 +166,14 @@ Route::group(['prefix'=>'/user','middleware'=>['user']],function(){
 
 });
 
-// Serve storage files directly (symlink not available on this environment)
+// Fallback for environments where public/storage is not a symlink.
+// Resolved paths are confined to storage/app/public so ".." cannot escape it.
 Route::get('/storage/{path}', function (string $path) {
-    $fullPath = storage_path('app/public/' . $path);
-    abort_unless(file_exists($fullPath), 404);
+    $root = realpath(storage_path('app/public'));
+    $fullPath = realpath($root . DIRECTORY_SEPARATOR . $path);
+
+    abort_unless($fullPath !== false && is_file($fullPath), 404);
+    abort_unless(str_starts_with($fullPath, $root . DIRECTORY_SEPARATOR), 404);
+
     return response()->file($fullPath);
 })->where('path', '.*')->name('storage.serve');

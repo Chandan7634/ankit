@@ -45,6 +45,9 @@
                                                                 {{ $cart->product['title'] }}
                                                             </a>
                                                         </h5>
+                                                        @if ($cart->size)
+                                                            <p class="font-xs text-muted mb-0">Size: {{ $cart->size }}</p>
+                                                        @endif
                                                         {{-- <p class="font-xs">Maboriosam in a tonto nesciung eget<br> distingy
                                                             magndapibus.
                                                         </p> --}}
