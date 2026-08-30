@@ -5,7 +5,15 @@
                 <div class="col-xl-3 col-lg-4">
                     <div class="header-info">
                         <ul>
-                            <li><i class="fi-rs-smartphone"></i> <a href="tel:7667459049">(+91) 7667459049</a></li>
+                            @if ($site->phone)
+                                <li><i class="fi-rs-smartphone"></i> <a
+                                        href="tel:{{ preg_replace('/[^0-9+]/', '', $site->phone) }}">{{ $site->phone }}</a>
+                                </li>
+                            @endif
+                            @if ($site->email)
+                                <li><i class="fi-rs-envelope"></i> <a
+                                        href="mailto:{{ $site->email }}">{{ $site->email }}</a></li>
+                            @endif
                         </ul>
                     </div>
                 </div>
@@ -370,9 +378,16 @@
                         </a>
                     </div>
                 @endauth
-                <div class="single-mobile-header-info">
-                    <a href="tel:7667459049">(+91) 7667459049 </a>
-                </div>
+                @if ($site->phone)
+                    <div class="single-mobile-header-info">
+                        <a href="tel:{{ preg_replace('/[^0-9+]/', '', $site->phone) }}">{{ $site->phone }}</a>
+                    </div>
+                @endif
+                @if ($site->email)
+                    <div class="single-mobile-header-info">
+                        <a href="mailto:{{ $site->email }}">{{ $site->email }}</a>
+                    </div>
+                @endif
             </div>
             <div class="mobile-social-icon">
                 <h5 class="mb-15 text-grey-4">Follow Us</h5>

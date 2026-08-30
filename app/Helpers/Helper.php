@@ -8,6 +8,7 @@ use App\Models\Message;
 use App\Models\Order;
 use App\Models\PostCategory;
 use App\Models\PostTag;
+use App\Models\Settings;
 use App\Models\Shipping;
 use App\Models\Wishlist;
 use Illuminate\Support\Facades\Auth;
@@ -134,5 +135,25 @@ class Helper
     public static function shipping()
     {
         return Shipping::orderByDesc('id')->get();
+    }
+
+    /**
+     * The single site-settings row — the one source of truth for the store's
+     * contact details. Memoized because header, footer and page bodies all ask
+     * for it on the same request.
+     */
+    private static $siteSettings = null;
+
+    public static function settings()
+    {
+        if (self::$siteSettings === null) {
+            try {
+                self::$siteSettings = Settings::first() ?? new Settings;
+            } catch (\Throwable $e) {
+                // Table not migrated yet (installer, fresh clone) — never fatal.
+                self::$siteSettings = new Settings;
+            }
+        }
+        return self::$siteSettings;
     }
 }

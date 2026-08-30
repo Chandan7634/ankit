@@ -17,6 +17,7 @@
 {{-- <link rel="stylesheet" href="{{ asset('assets/css/app.min.css') }}"> --}}
 <link rel="stylesheet" href="{{ asset('frontend/css/main.css') }}">
 @yield('styles')
+@stack('styles')
 <meta name="description"
     content="Fulvari - The best online plant store for indoor, outdoor, air purifying, and flowering plants. Bring nature home today.">
 <meta name="keywords" content="plants, indoor plants, purchase plants, nursery, fulvari, gardening, pots">

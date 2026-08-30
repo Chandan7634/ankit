@@ -59,7 +59,7 @@ class MessageController extends Controller
         $data['phone']=$message->phone;
         $data['message']=$message->message;
         $data['subject']=$message->subject;
-        $data['photo']=Auth()->user()->photo;
+        $data['photo']=auth()->user()?->photo;
         // return $data;    
         event(new MessageSent($data));
         request()->session()->flash('success', 'Your message has been sent successfully!');
