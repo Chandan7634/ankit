@@ -9,12 +9,22 @@
                         </div>
                         <h5 class="mt-20 mb-10 fw-600 text-grey-4 wow fadeIn animated animated animated"
                             style="visibility: visible;">Contact</h5>
-                        <p class="wow fadeIn animated animated animated" style="visibility: visible;">
-                            <strong>Address: </strong> Sri Krishna Puri Boring road Patna 800001.
-                        </p>
-                        <p class="wow fadeIn animated animated animated" style="visibility: visible;">
-                            <strong>Phone: </strong>+91 7667459049 /(+91) 7667459049
-                        </p>
+                        @if ($site->address)
+                            <p class="wow fadeIn animated animated animated" style="visibility: visible;">
+                                <strong>Address: </strong>{{ $site->address }}
+                            </p>
+                        @endif
+                        @if ($site->phone)
+                            <p class="wow fadeIn animated animated animated" style="visibility: visible;">
+                                <strong>Phone: </strong><a
+                                    href="tel:{{ preg_replace('/[^0-9+]/', '', $site->phone) }}">{{ $site->phone }}</a>
+                            </p>
+                        @endif
+                        @if ($site->email)
+                            <p class="wow fadeIn animated animated animated" style="visibility: visible;">
+                                <strong>Email: </strong><a href="mailto:{{ $site->email }}">{{ $site->email }}</a>
+                            </p>
+                        @endif
                         <p class="wow fadeIn animated animated animated" style="visibility: visible;">
                             <strong>Hours: </strong>10:00 - 18:00, Mon - Sat
                         </p>

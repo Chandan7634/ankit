@@ -74,10 +74,10 @@
       <img src="{{ asset('frontend/images/filvari-logo.jpeg') }}" alt="">
     </div>
     <div class="float-right site-address">
-      <h4>{{env('APP_NAME')}}</h4>
-      <p>{{env('APP_ADDRESS')}}</p>
-      <p>Phone: <a href="tel:{{env('APP_PHONE')}}">{{env('APP_PHONE')}}</a></p>
-      <p>Email: <a href="mailto:{{env('APP_EMAIL')}}">{{env('APP_EMAIL')}}</a></p>
+      <h4>{{ config('app.name') }}</h4>
+      @if($site->address)<p>{{ $site->address }}</p>@endif
+      @if($site->phone)<p>Phone: <a href="tel:{{ preg_replace('/[^0-9+]/', '', $site->phone) }}">{{ $site->phone }}</a></p>@endif
+      @if($site->email)<p>Email: <a href="mailto:{{ $site->email }}">{{ $site->email }}</a></p>@endif
     </div>
     <div class="clearfix"></div>
   </div>
