@@ -60,14 +60,14 @@
                         <div class="about-value-card">
                             <i class="fi-rs-shopping-cart-check"></i>
                             <h5>Free Shipping</h5>
-                            <p>On orders over &#8377;1000</p>
+                            <p>On orders over &#8377;300</p>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 col-6">
                         <div class="about-value-card">
                             <i class="fi-rs-refresh"></i>
                             <h5>Easy Returns</h5>
-                            <p>Within 30 days of delivery</p>
+                            <p>Within 5 days of delivery</p>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 col-6">
@@ -118,7 +118,6 @@
                         </div>
                         <div class="col-lg-4 text-lg-end mt-30 mt-lg-0">
                             <a href="{{ route('contact') }}" class="btn btn-fill-out hover-up">Contact Us</a>
-                            <a href="{{ route('blog') }}" class="btn btn-border hover-up ms-2">Our Blog</a>
                         </div>
                     </div>
                 </div>
